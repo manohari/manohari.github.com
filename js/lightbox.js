@@ -19,43 +19,15 @@ Lightbox.prototype.init = function() {
     	imgEle.id = i;
 		imgEle.src = this.imageArray[i];
 		imgEle.className = 'thumbnail';	
-		//imgEle.addEventListener('click', function() {
-  		//			_this.createOverlay(this); });	
+		imgEle.addEventListener('click', function() {
+  					_this.createOverlay(this); 
+  					});	
 		imgDiv.appendChild(imgEle);
 	}
-	_this.initEvent();
 	
 };
-
-Lightbox.prototype.initEvent = function() {
-	var element = document.body,_this=this;
-    if (window.attachEvent) {
-        element.attachEvent("click", _this.handleEvent);
-    } else {
-        element.addEventListener("click", _this.handleEvent, false);
-    }
-};
-
-Lightbox.prototype.handleEvent = function (e) {
-	var el = e.srcElement || e.target,_this=this;
-	if(el.tagName.toLowerCase() === 'img') {
-		_this.createOverlay(el);
-	}
-	
-}
-
-
-
 Lightbox.prototype.createOverlay = function(imgObj) {
 	var imageTag,overlay,imageDiv,closeDiv,anchorEle,_this=this,next,prev,navDiv,leftDiv,rightDiv;
-	/*var elem, evt = e;
- 	if (evt.srcElement) {
- 		elem = evt.srcElement;
- 	} 
- 	else if (evt.target) {
- 		elem = evt.target;
- 	}
- 	imgObj = elem;*/
  	overlay = document.createElement('div');
   	overlay.className = 'overlayElement';
   	overlay.id = 'overlayElement';
