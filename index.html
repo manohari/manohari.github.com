@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+	<meta charset="utf-8">
+	<title>Lightbox</title>
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+
+</head>
+<body>
+<div id ='sidebar'>
+	Images
+</div>
+<div id="content">
+<div class="section" id="images">	
+	<h3 style="clear: both;">Image set</h3>
+  <div class="imageRow" id="imageRow">
+  	
+  </div>
+	
+</div>
+
+</div><!-- end #content -->
+
+
+<script src="js/lightbox.js"></script>
+<script type="text/javascript">	
+var images = ['images/image-3.jpg','images/image-4.jpg','images/image-5.jpg','images/image-6.jpg'];
+var lightbox = new Lightbox('imageRow',images);
+
+
+</script>
+
+</body>
+</html>
