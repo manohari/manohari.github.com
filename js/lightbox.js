@@ -8,7 +8,18 @@ Lightbox.imageArray = [];
 Lightbox.imagePosition = 0;
 
 Lightbox.prototype.init = function() {
-	var i,parentDiv,newDiv,imgEle,imgDiv,imgLength,_this=this;	
+	var i,parentDiv,newDiv,imgEle,imgDiv,_this=this;	
+	parentDiv = document.getElementById(this.divId);
+	// Registering click event
+	parentDiv.addEventListener("click", function(e) {
+						_this._handleEvent(_this, e);
+						});
+	this.createThumbNails();
+						
+};
+
+Lightbox.prototype.createThumbNails = function() {
+	var imgLength,parentDiv,newDiv;
 	imgLength = this.imageArray.length;
 	parentDiv = document.getElementById(this.divId);
 	newDiv = document.createElement('div');
@@ -20,29 +31,24 @@ Lightbox.prototype.init = function() {
 		newDiv.appendChild(imgDiv);
 		imgEle = document.createElement('img');
 		imgEle.id = i;
+		imgEle.dataset.imgid = i;
 		imgEle.src = this.imageArray[i];
 		imgEle.className = 'thumbnail';	
 		imgDiv.appendChild(imgEle);
 	}
-	 // Registering click event
-	 parentDiv.addEventListener("click", function(e) {
-						_this._handleEvent(_this, e);
-						});
-};
+}
 
 Lightbox.prototype._handleEvent = function(ligthboxObj, event) {
 	var _this=ligthboxObj,e;
 	e = event.srcElement || event.target;
 	if(e.tagName.toLowerCase() === 'img') {
-		_this.imagePosition = e.id;
-		_this.createOverlay();
-	}
+		_this.imagePosition = e.dataset.imgid;
+		_this.createOverlay(e);
+	}	
 };
 
-Lightbox.prototype.createOverlay = function() {
-	var imgObj, _this=this,overlay,imageDiv,imageTag,closeDiv,anchorEle;
-
-	// overlay
+Lightbox.prototype.createOverlay = function(imgObj) {
+	var _this=this,overlay,imageDiv,imageTag,closeDiv,closeButton;	// overlay
  	overlay = document.createElement('div');
   	overlay.className = 'overlayElement';
   	overlay.id = 'overlayElement';
@@ -59,31 +65,37 @@ Lightbox.prototype.createOverlay = function() {
 	_this._generateNavigation(imageDiv, 'next');
 
 	// Expanded Image
-	imgObj = document.getElementById(this.imagePosition);
-    imageTag = document.createElement('img');
-    imageTag.src = imgObj.src;
+	//imgObj = document.getElementById(this.imagePosition);
+	imageTag = document.createElement('img');
+	imageTag.src = imgObj.src;
+	imageTag.dataset.over = imgObj.src;
+    imageTag.dataset.navImg = 'expanded_img';
     imageTag.id = 'expanded_img';
   	imageDiv.appendChild(imageTag);
  
 	// close 'X'
   	closeDiv = document.createElement('div');
   	imageDiv.appendChild(closeDiv);
-  	anchorEle = document.createElement('a');
-  	anchorEle.href = '#';
-  	anchorEle.appendChild(document.createTextNode('X'));
-  	anchorEle.addEventListener('click',function() {
-  									_this.close();
+  	closeButton = document.createElement('button');
+  	closeButton.name = 'close';
+  	closeButton.value = 'X';
+  	closeButton.appendChild(document.createTextNode('X'));
+  	closeButton.className = 'close';
+  	closeButton.addEventListener('click',function() {
+  									_this.close(this);
   								});
-  	closeDiv.appendChild(anchorEle);  	
+  	closeDiv.appendChild(closeButton);  	
 };
 
-Lightbox.prototype.close = function() {
+Lightbox.prototype.close = function(closeBtn) {
 	if (typeof(document.getElementById('overlayElement')) != 'undefined' && document.getElementById('overlayElement') != null) {
   		document.body.removeChild(document.getElementById('overlayElement'));
 	}
 	if (typeof(document.getElementById('lightbox')) != 'undefined' && document.getElementById('lightbox') != null) {
   		document.body.removeChild(document.getElementById('lightbox'));
-	}	
+	}
+	closeBtn.removeEventListener('click',this.close);
+		
 };
 
 // Constructs navigation elements on the lightbox
@@ -96,66 +108,27 @@ Lightbox.prototype._generateNavigation = function(imgObj, nav) {
 	else if (nav == 'next') {
 		navDiv.className = 'rightNav';
 	}
-  	navDiv.addEventListener('mouseover',function() {
-  					_this._showNavigation(_this, nav);
-  					});
-  	navDiv.addEventListener('mouseout', _this._hideNavigation);
+  	
   	imgObj.appendChild(navDiv);
-
-  	ele = document.createElement('a');
+  	ele = document.createElement('button');
   	ele.className = nav;
-  	ele.id = nav;
-  	ele.style.display = 'none';
-  	ele.href = '#';
 	if (nav == 'prev') {
 		ele.appendChild(document.createTextNode("<"));  
 	  	ele.addEventListener('click',function() {
-	 						 _this.prev();
+	 						 _this.prev(this);
 	  						});
 	}
 	else if (nav == 'next') {
 		ele.appendChild(document.createTextNode(">"));  
 	 	ele.addEventListener('click',function() {
-	  							_this.next();
+	  							_this.next(this);
 	  						});
 	}
 	navDiv.appendChild(ele);
 };
 
-// Logic to display navigation icon based on the image position
-Lightbox.prototype._showNavigation = function(lighboxObj, nav) {
-var _this = lighboxObj,imageArrayLength;
-	imageArrayLength = _this.imageArray.length;
-	
-	if (nav == 'prev') {
-		if (_this.imagePosition > 0 && _this.imageArray.length > 1) {
-			document.getElementById('prev').style.display = 'block';
-		}
-		else {
-			document.getElementById('prev').style.display = 'none';
-		}
-	}
-	else if (nav == 'next') {
-		if ((imageArrayLength-1) > _this.imagePosition && imageArrayLength > 1) {
-			document.getElementById('next').style.display = 'block';
-		}
-		else {
-			document.getElementById('next').style.display = 'none';
-		}
-	}
-};
 
-// Hides navigation
-Lightbox.prototype._hideNavigation = function() {
-	if (typeof(document.getElementById('prev')) !== 'undefined' && document.getElementById('prev') !== null) {
-		document.getElementById('prev').style.display = 'none';
-	}
-	if (typeof(document.getElementById('next')) !== 'undefined' && document.getElementById('next') !== null) {
-		document.getElementById('next').style.display = 'none';
-	}
-};
-
-Lightbox.prototype.next = function() {
+Lightbox.prototype.next = function(nextBtn) {
 	this.imagePosition++;
 	// Check to ensure the API call has not incremented imagePosition out of array context
 	if (this.imagePosition < this.imageArray.length) {
@@ -163,9 +136,11 @@ Lightbox.prototype.next = function() {
 	} else {
 		this.imagePosition--;
 	}
+	nextBtn.removeEventListener('click',this.next);
+	
 };
 
-Lightbox.prototype.prev = function() {
+Lightbox.prototype.prev = function(prevBtn) {
 	this.imagePosition--;
 	// Check to ensure the API call has not decremented imagePosition out of array context
 	if (this.imagePosition >= 0) {
@@ -173,4 +148,5 @@ Lightbox.prototype.prev = function() {
 	} else {
 		this.imagePosition++;
 	}
+	prevBtn.removeEventListener('click',this.prev);
 };

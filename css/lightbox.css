@@ -1,6 +1,6 @@
 .overlayElement{
-    width: 1349px;
-    height: 3284px;
+    width: 100%;
+    height: 100%;
     display: block;
     position: absolute;
     top: 0;
@@ -10,68 +10,102 @@
     opacity: 0.85;
 }
 
-.lightbox{
-	display:block;
+.lightbox{	
 	position:absolute;
-	z-index: 100;
-	top:20px;
-	left:400px;
+	z-index: 100;	
 	background-color:#EEEEEE;
 	padding:10px;
 	border:2px solid #666666;
-	height:auto;
-	width: auto;
-	
+	left:30%;
+	width:auto;
+	height:auto;	
 }
 
-a {
+.lightbox button {
 	font-weight:bold;
-	float:right;
-	text-decoration:none;
 	background-color:#DDDDDD;
 	border:1px solid #cccccc;
 	color:#555555;
-}
-
-a.next {
-	float:right;
-	right:20px;
-	top:200px;	
-	position:relative;	
-	border-radius: 10px;
+	border-radius:10px;
 	-moz-border-radius:10px;
-	-webkit-border-radius: 10px; 
+	-webkit-border-radius:10px;	
 }
-div.lightbox {
-	display: inline-block;
-}
-
-.leftNav {
-	width:200px;
-	height:400px;
-	position:absolute;
-	float:left;
-	left:0;
-	vertical-align: center;
-}
-
-.rightNav {
-	width:200px;
-	height:400px;
-	position:absolute;
+.lightbox button.close {	
 	float:right;
-	right:0;
-	vertical-align: center;	
+	
+}
+div.leftNav {
+	width:200px;
+	height:400px;
+	position:absolute;
+	left:0;
+	vertical-align:center;
 }
 
-a.prev {
+div.rightNav {
+	width:200px;
+	height:400px;
+	position:absolute;
+	right:0;
+	vertical-align:center;	
+}
+
+button.next {	
+	display:none;
+	float:right;
+	right:20px;	 
+	top:200px;	
+	position:relative;
+}
+button.prev {	
+	display:none;
 	float:left;
 	left:20px;
-	top:200px;
+	top:200px;	
 	position:relative;	
-	border-radius: 10px;
-	-moz-border-radius:10px;
-	-webkit-border-radius: 10px; 	
 }
+
+.leftNav:hover .prev {
+	display:block;
+}
+
+.rightNav:hover .next {
+	display:block;
+}
+
+.lightbox:hover {
+	-webkit-transition: all 1s ease;
+	   -moz-transition: all 1s ease;	
+	    -ms-transition: all 1s ease;
+	     -o-transition: all 1s ease;
+	        transition: all 1s ease;  
+	
+	-webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+            box-sizing: border-box;
+            
+	-webkit-transform: 2s;
+	    -moz-transform:2s;
+             transform:2s;
+    
+          
+	-webkit-box-shadow: 5px 5px 5px #111;
+            box-shadow: 5px 5px 5px #111;        
+    
+  	-webkit-transform: rotate(360deg);
+       -moz-transform: rotate(360deg);
+         -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+            transform: rotate(360deg);
+            
+	border: 70px solid #000;
+    border-radius: 100%;
+  
+
+}
+
+
+
 
 
