@@ -126,7 +126,7 @@ Lightbox.prototype.generateNavigation = function(imgObj, nav) {
 Lightbox.prototype.next = function(nextBtn) {
 	var imageElement,newElement,currentImg;
    	imageElement = nextBtn.parentElement.nextSibling;
-    currentImg = imageElement.dataset.navImg;
+	currentImg = imageElement.dataset.navImg;
 	newElement = document.getElementsByTagName("img")[Number(currentImg)+1];
 	if (newElement !== null && newElement != undefined) {
 		imageElement.src = newElement.src;
@@ -139,7 +139,7 @@ Lightbox.prototype.next = function(nextBtn) {
 Lightbox.prototype.prev = function(prevBtn) {
 	var imageElement,newElement,currentImg;
    	imageElement = prevBtn.parentElement.nextSibling.nextSibling;
-    currentImg = imageElement.dataset.navImg;
+	currentImg = imageElement.dataset.navImg;
 	newElement = document.getElementsByTagName("img")[Number(currentImg)-1];
 	if (newElement !== null && newElement !== undefined) {
 		imageElement.src = newElement.src;
