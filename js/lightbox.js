@@ -81,7 +81,7 @@ Lightbox.prototype.createOverlay = function(imgObj) {
   	closeButton.appendChild(document.createTextNode('X'));
   	closeButton.className = 'close';
   	closeButton.addEventListener('click',function() {
-  									_this.close(this);
+  								  	_this.close(this);
   								});
   	closeDiv.appendChild(closeButton);  	
 };
@@ -114,14 +114,14 @@ Lightbox.prototype._generateNavigation = function(imgObj, nav) {
 	if (nav == 'prev') {
 		ele.appendChild(document.createTextNode("<"));  
 	  	ele.addEventListener('click',function() {
-	 						 _this.prev(this);
-	  						});
+	  							_this.prev(this);
+	  							});
 	}
 	else if (nav == 'next') {
 		ele.appendChild(document.createTextNode(">"));  
 	 	ele.addEventListener('click',function() {
-	  							_this.next(this);
-	  						});
+	 							_this.next(this);
+	  							});
 	}
 	navDiv.appendChild(ele);
 };
