@@ -64,13 +64,12 @@ Lightbox.prototype.createOverlay = function(imgObj) {
 	_this._generateNavigation(imageDiv, 'prev');
 	_this._generateNavigation(imageDiv, 'next');
 
-	// Expanded Image
-	//imgObj = document.getElementById(this.imagePosition);
+	// Expanded Image	
 	imageTag = document.createElement('img');
 	imageTag.src = imgObj.src;
 	imageTag.dataset.over = imgObj.src;
-    imageTag.dataset.navImg = 'expanded_img';
-    imageTag.id = 'expanded_img';
+	imageTag.dataset.navImg = 'expanded_img';
+	imageTag.id = 'expanded_img';
   	imageDiv.appendChild(imageTag);
  
 	// close 'X'
