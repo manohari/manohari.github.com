@@ -34,15 +34,15 @@
 	float:right;
 	
 }
-div.leftNav {
+
+.leftNav {
+	left:0;	
 	width:200px;
 	height:400px;
 	position:absolute;
-	left:0;
-	vertical-align:center;
 }
 
-div.rightNav {
+.rightNav{
 	width:200px;
 	height:400px;
 	position:absolute;
@@ -50,19 +50,20 @@ div.rightNav {
 	vertical-align:center;	
 }
 
-button.next {	
-	display:none;
+
+.next {	
 	float:right;
 	right:20px;	 
 	top:200px;	
-	position:relative;
-}
-button.prev {	
 	display:none;
+	position:relative;	
+}
+.prev {	
 	float:left;
 	left:20px;
 	top:200px;	
-	position:relative;	
+	display:none;
+	position:relative;		
 }
 
 .leftNav:hover .prev {
@@ -73,7 +74,11 @@ button.prev {
 	display:block;
 }
 
-.lightbox:hover {
+.lightbox .next:focus img {
+	display:none;
+}
+
+.lightbox img:hover {
 	-webkit-transition: all 1s ease;
 	   -moz-transition: all 1s ease;	
 	    -ms-transition: all 1s ease;
@@ -98,9 +103,6 @@ button.prev {
          -o-transform: rotate(360deg);
         -ms-transform: rotate(360deg);
             transform: rotate(360deg);
-            
-	border: 70px solid #000;
-	border-radius: 100%;
   
 
 }

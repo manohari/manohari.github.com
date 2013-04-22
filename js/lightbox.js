@@ -5,7 +5,6 @@ function Lightbox(divId,imageArray) {
 }
 
 Lightbox.imageArray = [];
-Lightbox.imagePosition = 0;
 
 Lightbox.prototype.init = function() {
 	var i,parentDiv,newDiv,imgEle,imgDiv,_this=this;	
@@ -22,15 +21,14 @@ Lightbox.prototype.createThumbNails = function() {
 	var imgLength,parentDiv,newDiv;
 	imgLength = this.imageArray.length;
 	parentDiv = document.getElementById(this.divId);
-	newDiv = document.createElement('div');
+	newDiv = document.createElement('section');
 	newDiv.className = 'set';
 	parentDiv.appendChild(newDiv);
 	for (i = 0; i < imgLength; i+= 1) {	
-		imgDiv = document.createElement('div');
+		imgDiv = document.createElement('article');
 		imgDiv.className = 'single';
 		newDiv.appendChild(imgDiv);
 		imgEle = document.createElement('img');
-		imgEle.id = i;
 		imgEle.dataset.imgid = i;
 		imgEle.src = this.imageArray[i];
 		imgEle.className = 'thumbnail';	
@@ -39,20 +37,20 @@ Lightbox.prototype.createThumbNails = function() {
 }
 
 Lightbox.prototype._handleEvent = function(ligthboxObj, event) {
-	var _this=ligthboxObj,e;
+	var _this=ligthboxObj,e,overlay;
 	e = event.srcElement || event.target;
+	overlay = document.createElement('div');
+  	overlay.className = 'overlayElement';
+  	overlay.id = 'overlayElement';
+  	document.body.appendChild(overlay);  
 	if(e.tagName.toLowerCase() === 'img') {
-		_this.imagePosition = e.dataset.imgid;
 		_this.createOverlay(e);
 	}	
 };
 
 Lightbox.prototype.createOverlay = function(imgObj) {
-	var _this=this,overlay,imageDiv,imageTag,closeDiv,closeButton;	// overlay
- 	overlay = document.createElement('div');
-  	overlay.className = 'overlayElement';
-  	overlay.id = 'overlayElement';
-  	document.body.appendChild(overlay);  	
+	var _this=this,imageDiv,imageTag,closeDiv,closeButton;	// overlay
+ 		
  
   	// lightbox
   	imageDiv = document.createElement('div');
@@ -61,15 +59,13 @@ Lightbox.prototype.createOverlay = function(imgObj) {
   	document.body.appendChild(imageDiv);
 
 	// Navigation Menus
-	_this._generateNavigation(imageDiv, 'prev');
-	_this._generateNavigation(imageDiv, 'next');
+	_this.generateNavigation(imageDiv, 'prev');
+	_this.generateNavigation(imageDiv, 'next');
 
 	// Expanded Image	
 	imageTag = document.createElement('img');
 	imageTag.src = imgObj.src;
-	imageTag.dataset.over = imgObj.src;
-	imageTag.dataset.navImg = 'expanded_img';
-	imageTag.id = 'expanded_img';
+	imageTag.dataset.navImg = imgObj.dataset.imgid;
   	imageDiv.appendChild(imageTag);
  
 	// close 'X'
@@ -87,20 +83,20 @@ Lightbox.prototype.createOverlay = function(imgObj) {
 };
 
 Lightbox.prototype.close = function(closeBtn) {
-	if (typeof(document.getElementById('overlayElement')) != 'undefined' && document.getElementById('overlayElement') != null) {
-  		document.body.removeChild(document.getElementById('overlayElement'));
+	if (closeBtn.parentNode.parentNode.previousSibling != null) {
+  		document.body.removeChild(closeBtn.parentNode.parentNode.previousSibling);
 	}
-	if (typeof(document.getElementById('lightbox')) != 'undefined' && document.getElementById('lightbox') != null) {
-  		document.body.removeChild(document.getElementById('lightbox'));
+	if (closeBtn.parentNode.parentNode.previousSibling != null) {
+  		document.body.removeChild(closeBtn.parentNode.parentNode);
 	}
 	closeBtn.removeEventListener('click',this.close);
 		
 };
 
 // Constructs navigation elements on the lightbox
-Lightbox.prototype._generateNavigation = function(imgObj, nav) {
+Lightbox.prototype.generateNavigation = function(imgObj, nav) {
 	var ele, navDiv, _this = this;
-  	navDiv = document.createElement('div');
+  	navDiv = document.createElement('nav');
 	if (nav == 'prev') {
 		navDiv.className = 'leftNav';
 	}
@@ -128,24 +124,27 @@ Lightbox.prototype._generateNavigation = function(imgObj, nav) {
 
 
 Lightbox.prototype.next = function(nextBtn) {
-	this.imagePosition++;
-	// Check to ensure the API call has not incremented imagePosition out of array context
-	if (this.imagePosition < this.imageArray.length) {
-		document.getElementById('expanded_img').src = document.getElementById(this.imagePosition).src;
-	} else {
-		this.imagePosition--;
+	var imageElement,newElement,currentImg;
+   	imageElement = nextBtn.parentElement.nextSibling;
+    currentImg = imageElement.dataset.navImg;
+	newElement = document.getElementsByTagName("img")[Number(currentImg)+1];
+	if (newElement !== null && newElement != undefined) {
+		imageElement.src = newElement.src;
+		imageElement.dataset.navImg = newElement.dataset.imgid;
 	}
 	nextBtn.removeEventListener('click',this.next);
 	
 };
 
 Lightbox.prototype.prev = function(prevBtn) {
-	this.imagePosition--;
-	// Check to ensure the API call has not decremented imagePosition out of array context
-	if (this.imagePosition >= 0) {
-		document.getElementById('expanded_img').src = document.getElementById(this.imagePosition).src;
-	} else {
-		this.imagePosition++;
+	var imageElement,newElement,currentImg;
+   	imageElement = prevBtn.parentElement.nextSibling.nextSibling;
+    currentImg = imageElement.dataset.navImg;
+	newElement = document.getElementsByTagName("img")[Number(currentImg)-1];
+	if (newElement !== null && newElement !== undefined) {
+		imageElement.src = newElement.src;
+		imageElement.dataset.navImg = newElement.dataset.imgid;
 	}
+	prevBtn.removeEventListener('click',this.prev);
 	prevBtn.removeEventListener('click',this.prev);
 };
