@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+	<meta charset="utf-8">
+	<title>Lightbox</title>
+	<link rel="stylesheet" href="css/qunit.css" type="text/css" media="screen" />
+</head>
+<body>
+	<div id="qunit"> </div>
+<div id="qunit-fixture">
+
+<section class="content">	
+	<h3 style="clear: both;">Image set</h3>
+  <div class="imageRow" id="imageRow"> </div>
+</section><!-- end #content -->
+</div>
+<script src="js/qunit.js"></script>
+<script src="js/lightbox.js"></script>
+<script type="text/javascript">	
+var images = ['images/image-3.jpg','images/image-4.jpg','images/image-5.jpg','images/image-6.jpg'];
+var lightbox = new Lightbox('imageRow',images);
+test("Image Gallery", function() {
+	var imgs = document.getElementById("qunit-fixture").getElementsByTagName("img");
+	equal(imgs[0].dataset.imgid, 0);
+	equal(imgs[1].dataset.imgid, 1);
+	equal(imgs[2].dataset.imgid, 2);
+	equal(imgs[3].dataset.imgid, 3);
+	
+});
+</script>
+
+</body>
+</html>

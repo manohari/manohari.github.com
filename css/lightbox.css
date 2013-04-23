@@ -8,6 +8,7 @@
 	z-index: 90;
 	background-color: #eee;
 	opacity: 0.85;
+	display: none;
 }
 
 .lightbox{	

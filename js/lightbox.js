@@ -39,10 +39,7 @@ Lightbox.prototype.createThumbNails = function() {
 Lightbox.prototype._handleEvent = function(ligthboxObj, event) {
 	var _this=ligthboxObj,e,overlay;
 	e = event.srcElement || event.target;
-	overlay = document.createElement('div');
-  	overlay.className = 'overlayElement';
-  	overlay.id = 'overlayElement';
-  	document.body.appendChild(overlay);  
+	document.getElementsByTagName('div')[1].style.display = 'block';
 	if(e.tagName.toLowerCase() === 'img') {
 		_this.createOverlay(e);
 	}	
@@ -82,9 +79,10 @@ Lightbox.prototype.createOverlay = function(imgObj) {
   	closeDiv.appendChild(closeButton);  	
 };
 
-Lightbox.prototype.close = function(closeBtn) {
-	if (closeBtn.parentNode.parentNode.previousSibling != null) {
-  		document.body.removeChild(closeBtn.parentNode.parentNode.previousSibling);
+Lightbox.prototype.close = function(closeBtn) {	
+	if (document.getElementsByTagName("div")[1] != null) {
+  		document.body.removeChild(document.getElementsByTagName("div")[1]);
+  		document.getElementsByTagName("div")[1].style.display = 'none';
 	}
 	if (closeBtn.parentNode.parentNode.previousSibling != null) {
   		document.body.removeChild(closeBtn.parentNode.parentNode);
