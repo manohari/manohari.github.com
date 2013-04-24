@@ -46,14 +46,13 @@ Lightbox.prototype._handleEvent = function(ligthboxObj, event) {
 };
 
 Lightbox.prototype.createOverlay = function(imgObj) {
-	var _this=this,imageDiv,imageTag,closeDiv,closeButton;	// overlay
- 		
- 
+	var _this=this,imageDiv,imageTag,closeDiv,closeButton,sec;	// overlay
   	// lightbox
+  	sec = document.getElementsByTagName("section")[0];
   	imageDiv = document.createElement('div');
   	imageDiv.className = 'lightbox';
   	imageDiv.id = 'lightbox';
-  	document.body.appendChild(imageDiv);
+  	sec.appendChild(imageDiv);
 
 	// Navigation Menus
 	_this.generateNavigation(imageDiv, 'prev');
@@ -79,13 +78,12 @@ Lightbox.prototype.createOverlay = function(imgObj) {
   	closeDiv.appendChild(closeButton);  	
 };
 
-Lightbox.prototype.close = function(closeBtn) {	
-	if (document.getElementsByTagName("div")[1] != null) {
-  		document.body.removeChild(document.getElementsByTagName("div")[1]);
-  		document.getElementsByTagName("div")[1].style.display = 'none';
-	}
-	if (closeBtn.parentNode.parentNode.previousSibling != null) {
-  		document.body.removeChild(closeBtn.parentNode.parentNode);
+Lightbox.prototype.close = function(closeBtn) {
+	if (document.getElementsByTagName("div")[3] != null && document.getElementsByTagName("div")[3]) {  		
+  		document.getElementsByTagName("div")[3].style.display = 'none';
+	}		
+	if (closeBtn.parentNode.parentNode != null) {		
+  		closeBtn.parentNode.parentNode.parentNode.removeChild(closeBtn.parentNode.parentNode);
 	}
 	closeBtn.removeEventListener('click',this.close);
 		
