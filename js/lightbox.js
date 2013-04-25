@@ -124,7 +124,9 @@ Lightbox.prototype.next = function(nextBtn) {
    	imageElement = nextBtn.parentElement.nextSibling;
 	currentImg = imageElement.dataset.navImg;
 	newElement = document.getElementsByTagName("img")[Number(currentImg)+1];
-	if (newElement !== null && newElement != undefined) {
+	if (newElement !== null && newElement !== undefined && newElement.dataset.imgid !== undefined) {
+		console.log('here in undefined');
+		
 		imageElement.src = newElement.src;
 		imageElement.dataset.navImg = newElement.dataset.imgid;
 	}
@@ -141,6 +143,5 @@ Lightbox.prototype.prev = function(prevBtn) {
 		imageElement.src = newElement.src;
 		imageElement.dataset.navImg = newElement.dataset.imgid;
 	}
-	prevBtn.removeEventListener('click',this.prev);
 	prevBtn.removeEventListener('click',this.prev);
 };
