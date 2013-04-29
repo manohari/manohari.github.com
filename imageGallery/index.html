@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Image Gallery</title>
+        <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
+    </head>
+    <body>
+        <h1 class='heading'>Image Gallery</h1>
+        <section class='selectChoice'>
+            <span class="notes">Please select any one option from below </span><br>
+            <span class="notes"> File Upload </span><br>
+                <section class="uploadFile">
+                    <input type="file" id="files" name="files[]" multiple /><br>
+                </section>
+            <span class="notes">Drag and Drop</span> 
+                <div class="dragdrop">
+                    <div id="drop_zone" class="drop_zone">Drop files here</div>
+                </div>
+                
+                <output id="list"> </output>
+        </section> 
+
+<script type="text/javascript" src="js/imageDisplay.js"></script>
+    </body>    
+</html>
