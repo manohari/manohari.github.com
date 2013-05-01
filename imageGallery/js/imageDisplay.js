@@ -25,7 +25,7 @@ var imageGalleryViews =  function(imgController) {
             fileEle.multiple = true;
             fileEle.addEventListener('change',function(e) {
                 e.preventDefault();
-                imgController.handleFileSelectEvent(e,0);
+                imgController.handleImageEvents(e,0);
             }, false);
             secEle.appendChild(fileEle);
             spanEle = document.createElement("span");
@@ -39,9 +39,13 @@ var imageGalleryViews =  function(imgController) {
             innerDiv = document.createElement("div");
             innerDiv.id = 'drop_zone';
             innerDiv.className = 'drop_zone';
-            innerDiv.addEventListener('dragover',imgController.handleDragOverEvent,false);
+            innerDiv.addEventListener('dragover',function(evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+                evt.dataTransfer.effectAllowed = 'copy';
+            }, false);
             innerDiv.addEventListener('drop',function(e) {
-                imgController.handleFileSelectEvent(e,1);
+                imgController.handleImageEvents(e,1);
             }, false);
             innerDiv.addEventListener('dragleave',function(evt) {
                 evt.preventDefault();
@@ -73,11 +77,6 @@ var imageGalleryViews =  function(imgController) {
 };
 var imageGalleryModel = function () {
     return {
-        handleDragOverEvent : function (evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy';
-        },
         showLB : function(e) {
             var evt,imgs,imgLoop,imgLength,lightbox,imageArray = [];
             evt = e.target || e.srcElement;
@@ -132,9 +131,12 @@ var imageGalleryModel = function () {
 var imageGalleryControllers =  function() {
     "use strict";
     return {
-        showForm : function() {
+        handleImageEvents : function(evt,opt){
             var imgModel = imageGalleryModel();
-            var viewForm = imageGalleryViews(imgModel);
+            imgModel.handleFileSelectEvent(evt,opt);
+        },
+        showForm : function() { 
+            var viewForm = imageGalleryViews(this);
             viewForm.displayForm();
         }
     };
