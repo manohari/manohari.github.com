@@ -3,7 +3,7 @@
     <head>
         <title>Image Gallery</title>
         <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
-        <link rel="stylesheet" href="../css/lightbox.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="../Fancybox/css/lightbox.css" type="text/css" media="screen" />
     </head>
     <body>
         <h1 class='heading'>Image Gallery</h1>
@@ -11,11 +11,11 @@
         </section>
         <div class="overlayElement" id="overlayElement"> </div> 
 
-<script type="text/javascript" src="../js/lightbox.js"></script>
+<script type="text/javascript" src="../Fancybox/js/lightbox.js"></script>
 <script type="text/javascript" src="js/imageDisplay.js"></script>
 <script type="text/javascript">
     
-  var displayInfo = new imageGalleryControllers();
+  var displayInfo = new imageGalleryController();
   displayInfo.showForm();
 </script>
     </body>    

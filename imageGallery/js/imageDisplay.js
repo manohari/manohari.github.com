@@ -1,4 +1,4 @@
-var imageGalleryViews =  function(imgController) {
+var imageGalleryView =  function(imgController) {
     "use strict";
     return { 
         displayForm : function() {
@@ -112,7 +112,7 @@ var imageGalleryModel = function () {
                  reader = new FileReader();
                  reader.onload = function(e) {
                      if(reader.readyState > 0) {
-                         var viewForm = imageGalleryViews(this);
+                         var viewForm = imageGalleryView(this);
                          viewForm.displayThumbNails(e);
                          
                      }
@@ -128,7 +128,7 @@ var imageGalleryModel = function () {
 
     
 };
-var imageGalleryControllers =  function() {
+var imageGalleryController =  function() {
     "use strict";
     var viewForm,imgModel;
     imgModel = imageGalleryModel();
@@ -140,7 +140,7 @@ var imageGalleryControllers =  function() {
             imgModel.showLB(e);
         },
         showForm : function() { 
-            viewForm = imageGalleryViews(this);
+            viewForm = imageGalleryView(this);
             viewForm.displayForm();
         }
     };
