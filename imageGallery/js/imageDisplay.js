@@ -39,13 +39,13 @@ var imageGalleryViews =  function(imgController) {
             innerDiv = document.createElement("div");
             innerDiv.id = 'drop_zone';
             innerDiv.className = 'drop_zone';
+            innerDiv.addEventListener('drop',function(e) {
+                imgController.handleImageEvents(e,1);
+            }, false);
             innerDiv.addEventListener('dragover',function(evt) {
                 evt.preventDefault();
                 evt.stopPropagation();
                 evt.dataTransfer.dropEffect = 'copy';
-            }, false);
-            innerDiv.addEventListener('drop',function(e) {
-                imgController.handleImageEvents(e,1);
             }, false);
             innerDiv.addEventListener('dragleave',function(evt) {
                 evt.preventDefault();
@@ -60,6 +60,7 @@ var imageGalleryViews =  function(imgController) {
             divEle.appendChild(innerDiv);
             outputEle = document.createElement("output");
             outputEle.id = 'list';
+            outputEle.addEventListener("click",imgController.handleLightBoxEvent,false);
             sec.appendChild(outputEle);
             
             
@@ -91,8 +92,10 @@ var imageGalleryModel = function () {
             lightbox.createOverlay(evt);
         },
         handleFileSelectEvent : function (e,opt) {
+            //console.log('here');return false;
             e.stopPropagation();
             e.preventDefault();
+            //console.log("here");return false;
             var files,i,f,reader,otherFormat =0,span,image,images,thumbnails;
             if(opt === 0) {
                 files = e.target.files; 
@@ -118,9 +121,6 @@ var imageGalleryModel = function () {
             }
             if(otherFormat > 1) {
                 alert('Only image files are allowed');
-            } else {
-                var op = document.getElementsByTagName('output')[0];
-                op.addEventListener("click",this.showLB,false);
             }
 
         }
@@ -130,13 +130,17 @@ var imageGalleryModel = function () {
 };
 var imageGalleryControllers =  function() {
     "use strict";
+    var viewForm,imgModel;
+    imgModel = imageGalleryModel();
     return {
         handleImageEvents : function(evt,opt){
-            var imgModel = imageGalleryModel();
             imgModel.handleFileSelectEvent(evt,opt);
         },
+        handleLightBoxEvent : function(e) {
+            imgModel.showLB(e);
+        },
         showForm : function() { 
-            var viewForm = imageGalleryViews(this);
+            viewForm = imageGalleryViews(this);
             viewForm.displayForm();
         }
     };
