@@ -42,7 +42,7 @@ var imageGalleryViews =  function(imgController) {
             innerDiv.addEventListener('dragover',function(evt) {
                 evt.preventDefault();
                 evt.stopPropagation();
-                evt.dataTransfer.effectAllowed = 'copy';
+                evt.dataTransfer.dropEffect = 'copy';
             }, false);
             innerDiv.addEventListener('drop',function(e) {
                 imgController.handleImageEvents(e,1);
