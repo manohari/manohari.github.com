@@ -1,18 +1,29 @@
 function Lightbox(divId,imageArray) {
     "use strict";
-    this.divId = divId;
-    this.imageArray = imageArray;
+    if(divId !== null && divId !== undefined) {
+        this.divId = divId;
+    }
+    if(imageArray !== null && imageArray !== undefined) {
+        this.imageArray = imageArray;
+    }
+    
     this.init();
 }
 Lightbox.prototype.init = function() {
     "use strict";
-    var i,parentDiv,newDiv,imgEle,imgDiv,_this=this;	
-    parentDiv = document.getElementById(this.divId);
+    var i,parentDiv,newDiv,imgEle,imgDiv,_this=this;
+    if(this.divId  !== null && this.divId !== undefined) {
+        parentDiv = document.getElementById(this.divId);
+        parentDiv.className = "imageRow";
+    }
+    
     // Registering click event
-    parentDiv.addEventListener("click", function(e) {
+    if(this.imageArray  && this.imageArray.length > 0 && this.imageArray !== undefined) {
+        parentDiv.addEventListener("click", function(e) {
                         _this._handleEvent(_this, e);
                         });
-    this.createThumbNails();
+        this.createThumbNails();
+    }
 };
 
 Lightbox.prototype.createThumbNails = function() {
@@ -88,8 +99,9 @@ Lightbox.prototype.close = function(closeBtn) {
     if(closeBtn === undefined) {
         return false;
     }
-    if(document.getElementsByTagName("div")[3] !== null && document.getElementsByTagName("div")[3]) {		
-        document.getElementsByTagName("div")[3].style.display = 'none';
+    
+    if(document.getElementById("overlayElement") !== null && document.getElementById("overlayElement")) {
+        document.getElementById("overlayElement").style.display = 'none';
     }
     if (closeBtn.parentNode.parentNode !== null) {		
         closeBtn.parentNode.parentNode.parentNode.removeChild(closeBtn.parentNode.parentNode);
@@ -117,7 +129,7 @@ Lightbox.prototype.generateNavigation = function(imgObj, nav) {
     if (nav === 'prev') {
         ele.appendChild(document.createTextNode("<"));
         ele.addEventListener('click',function() {
-                                 this.prev(this);
+                                 _this.prev(this);
                             });
     }
     else if (nav === 'next') {
