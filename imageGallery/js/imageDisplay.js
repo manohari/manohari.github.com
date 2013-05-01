@@ -1,55 +1,141 @@
-(function() {
+var imageGalleryViews =  function(imgController) {
     "use strict";
-function handleFileSelect(evt,opt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    var files,i,f,reader,otherFormat =0;
-    if(opt === 0) {
-        files = evt.target.files; // FileList object
-    }
-    else{
-        files = evt.dataTransfer.files; // FileList object
-    }
-    // files is a FileList of File objects. List some properties.
-    
-    for (i = 0; i < files.length; i += 1) {
-        f = files[i];
-        // Only process image files.
-        if (!f.type.match('image.*')) {
-            otherFormat += 1;
-            continue;
+    return { 
+        displayForm : function() {
+            var sec,spanEle,spanText,spanText2,fileEle,secEle,divEle,innerDiv,outputEle;
+            sec = document.getElementsByTagName("section")[0];
+            spanEle = document.createElement("span");
+            spanEle.className = 'notes';
+            spanText = document.createTextNode("Please select any one option from below ");
+            spanEle.appendChild(spanText);
+            sec.appendChild(spanEle);
+            sec.appendChild(document.createElement("br"));
+            spanEle = document.createElement("span");
+            spanEle.className = 'notes';
+            spanText2 = document.createTextNode("File Upload");
+            spanEle.appendChild(spanText2);
+            sec.appendChild(spanEle);
+            secEle = document.createElement("section");
+            secEle.className = 'uploadFile';
+            sec.appendChild(secEle);
+            fileEle = document.createElement("input");
+            fileEle.type = "file";
+            fileEle.id = "files";
+            fileEle.name = 'files[]';
+            fileEle.multiple = true;
+            fileEle.addEventListener('change',function(e) {
+                e.preventDefault();
+                imgController.handleFileSelectEvent(e,0);
+            }, false);
+            secEle.appendChild(fileEle);
+            spanEle = document.createElement("span");
+            spanEle.className = 'notes';
+            spanText = document.createTextNode("Drag and Drop");
+            spanEle.appendChild(spanText);
+            sec.appendChild(spanEle);
+            divEle = document.createElement("div");
+            divEle.className = 'class="dragdrop">';
+            sec.appendChild(divEle);
+            innerDiv = document.createElement("div");
+            innerDiv.id = 'drop_zone';
+            innerDiv.className = 'drop_zone';
+            innerDiv.addEventListener('dragover',imgController.handleDragOverEvent,false);
+            innerDiv.addEventListener('drop',function(e) {
+                imgController.handleFileSelectEvent(e,1);
+            }, false);
+            innerDiv.addEventListener('dragleave',function(evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+            }, false);
+            innerDiv.addEventListener('dragenter',function(evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+                evt.dataTransfer.effectAllowed = 'copyMove';
+            }, false);
+            innerDiv.appendChild(document.createTextNode('Drop files here'));
+            divEle.appendChild(innerDiv);
+            outputEle = document.createElement("output");
+            outputEle.id = 'list';
+            sec.appendChild(outputEle);
+            
+            
+        },
+        displayThumbNails : function (e) {
+            var span,image;
+            span = document.createElement('span');
+            image = document.createElement("img");
+            image.className = 'thumb';
+            image.src = e.target.result;
+            span.appendChild(image);
+            document.getElementById('list').insertBefore(span, null);
         }
-         reader = new FileReader();
-         // Closure to capture the file information.
-         reader.onload = function(e) {
-         // Render thumbnail.
-             var span = document.createElement('span');
-             span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                                '" title="', escape(f.name), '"/>'].join('');
-             document.getElementById('list').insertBefore(span, null);
-         }
-         // Read in the image file as a data URL.
-         reader.readAsDataURL(f);
-         //console.log(reader.readAsDataURL(f));
-    }
-    if(otherFormat > 1) {
-        alert('Only image files are allowed');
-    }
+    };
+};
+var imageGalleryModel = function () {
+    return {
+        handleDragOverEvent : function (evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy';
+        },
+        showLB : function(e) {
+            var evt,imgs,imgLoop,imgLength,lightbox,imageArray = [];
+            evt = e.target || e.srcElement;
+            imgs = document.getElementsByTagName("img");
+            imgLength = imgs.length;
+            for(imgLoop = 0; imgLoop < imgLength; imgLoop += 1) {
+                imgs[imgLoop].dataset.imgid = imgLoop;
+                imageArray[imgLoop] = imgs[imgLoop].src;
+            }
+            document.getElementById("overlayElement").style.display = 'block';
+            lightbox = new Lightbox('list');
+            lightbox.createOverlay(evt);
+        },
+        handleFileSelectEvent : function (e,opt) {
+            e.stopPropagation();
+            e.preventDefault();
+            var files,i,f,reader,otherFormat =0,span,image,images,thumbnails;
+            if(opt === 0) {
+                files = e.target.files; 
+            }
+            else{
+                files = e.dataTransfer.files;
+            }
+            for (i = 0; i < files.length; i += 1) {
+                f = files[i];
+                if (!f.type.match('image.*')) {
+                    otherFormat += 1;
+                    continue;
+                }
+                 reader = new FileReader();
+                 reader.onload = function(e) {
+                     if(reader.readyState > 0) {
+                         var viewForm = imageGalleryViews(this);
+                         viewForm.displayThumbNails(e);
+                         
+                     }
+                 }
+                 reader.readAsDataURL(f);
+            }
+            if(otherFormat > 1) {
+                alert('Only image files are allowed');
+            } else {
+                var op = document.getElementsByTagName('output')[0];
+                op.addEventListener("click",this.showLB,false);
+            }
 
-}
-function handleDragOver(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-}
-  
-    // Setup the dnd listeners.
-var dropZone = document.getElementsByTagName('div')[1];
-dropZone.addEventListener('dragover', handleDragOver, false);
-dropZone.addEventListener('drop', function(e) {
-                          handleFileSelect(e,1)
-                          }, false);
-document.getElementsByTagName('section')[1].addEventListener('change', function(e) {
-                                                                handleFileSelect(e,0)
-                              }, false);
-})();
+        }
+    };
+
+    
+};
+var imageGalleryControllers =  function() {
+    "use strict";
+    return {
+        showForm : function() {
+            var imgModel = imageGalleryModel();
+            var viewForm = imageGalleryViews(imgModel);
+            viewForm.displayForm();
+        }
+    };
+}; 
