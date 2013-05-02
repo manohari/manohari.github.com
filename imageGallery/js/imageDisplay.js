@@ -45,6 +45,7 @@ var imageGalleryView =  function(imgController) {
             divEle = document.createElement("div");
             divEle.className = 'class="dragdrop">';
             sec.appendChild(divEle);
+            //div inside above div
             innerDiv = document.createElement("div");
             innerDiv.id = 'drop_zone';
             innerDiv.className = 'drop_zone';
@@ -57,21 +58,15 @@ var imageGalleryView =  function(imgController) {
                 evt.preventDefault();
                 evt.stopPropagation();
                 evt.dataTransfer.dropEffect = 'move';
-                
-                this.removeEventListener('dragover',arguments.callee,false);
             }, false);
             innerDiv.addEventListener('dragleave',function(evt) {
                 evt.preventDefault();
                 evt.stopPropagation();
-                
-                this.removeEventListener('dragleave',arguments.callee,false);
             }, false);
             innerDiv.addEventListener('dragenter',function(evt) {
                 evt.preventDefault();
                 evt.stopPropagation();
                 evt.dataTransfer.effectAllowed = 'copyMove';
-                
-                this.removeEventListener('dragenter',arguments.callee,false);
             }, false);
             
             innerDiv.appendChild(document.createTextNode('Drop files here'));
@@ -111,8 +106,6 @@ var imageGalleryModel = function () {
             document.getElementById("overlayElement").style.display = 'block';
             lightbox = new Lightbox('list');
             lightbox.createOverlay(evt);
-            //removing event listener once event is done
-            this.removeEventListener('click',arguments.callee,false);
         },
         handleFileSelectEvent : function (e,opt) {
             //File Reader API of HTML5 used to read image and display
@@ -146,16 +139,13 @@ var imageGalleryModel = function () {
             }
             if(otherFormat > 1) {
                 alert('Only image files are allowed');
-            }else{
-                //removing event listener once event is done for both drag and drop and file handle
-                this.removeEventListener('change',arguments.callee,false);
-                this.removeEventListener('drop',arguments.callee,false);
             }
         }
     };
 };
 var imageGalleryController =  function() {
     "use strict";
+    //controller display html view and handle business logic of image reading and showing
     var viewForm,imgModel;
     imgModel = imageGalleryModel();
     return {
