@@ -1,4 +1,4 @@
-.thumb {
+.selectChoice .thumb {
     height: 75px;
     border: 1px solid  #000;
     margin: 10px 5px 0 0;
@@ -7,7 +7,7 @@
 .heading {
     text-align:center;
 }
-.uploadFile {
+.selectChoice .uploadFile {
     margin-left:20%;
 }
 
@@ -17,16 +17,12 @@
     width: 30%
 }
 
-.notes {
+.selectChoice .notes {
     border: 10px;
     padding: 10px;
 }
 
-.selectChoice input[type="radio"] {
-    margin-left:25px;
-}
-
-.drop_zone {
+.selectChoice .dropZone {
     border: 2px dashed #BBBBBB;
     border-radius: 5px 5px 5px 5px;
     color: #BBBBBB;
