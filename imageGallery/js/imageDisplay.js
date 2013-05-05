@@ -1,39 +1,54 @@
 var imageGalleryView =  function(imgController) {
     "use strict";
-    var sec;
-    sec = document.getElementsByTagName("section")[0];
     return { 
-        displayForm : function() {
+        displayUI : function() {
+              this.createUIElements();
+        },
+        createUIElements : function () {
             //this function creates files upload multiple element as well as drag and drop elements in html page
-            var spanEle, spanText, spanText2, outputEle;
-            spanEle = document.createElement("span");
-            spanEle.className = 'notes';
-            spanText = document.createTextNode("Please select any one option from below ");
-            spanEle.appendChild(spanText);
-            sec.appendChild(spanEle);
+            var sec,secEle, fileEle, outEle, spanEle;
+            sec = document.getElementsByTagName("section")[0];
+            spanEle = this.createSpanElement("Please select any one option from below");
+            this.addElement(sec,spanEle);
+            
             sec.appendChild(document.createElement("br"));
             
-            spanEle = document.createElement("span");
-            spanEle.className = 'notes';
-            spanText2 = document.createTextNode("File Upload");
-            spanEle.appendChild(spanText2);
-            sec.appendChild(spanEle);
+            spanEle = this.createSpanElement("File Upload");
+            this.addElement(sec,spanEle);
             
-            this.addFileElement();
+            secEle = this.createSectionEle();
+            this.addElement(sec,secEle);
             
-            spanEle = document.createElement("span");
-            spanEle.className = 'notes';
-            spanText = document.createTextNode("Drag and Drop");
-            spanEle.appendChild(spanText);
-            sec.appendChild(spanEle);
+            fileEle = this.createFileElement();
+            this.addElement(secEle,fileEle);
+            
+            spanEle = this.createSpanElement("Drag and Drop");
+            this.addElement(sec,spanEle);
             
             this.addDragDropEle();
             //html5 output element to display all uploaded as well as drag and drop elements
+            outEle = this.createOutputEle();
+            this.addElement(sec,outEle);
+        },
+        addElement : function (parentEle,childEle) {
+            parentEle.appendChild(childEle);
+        },
+        createOutputEle : function () {
+            var outputEle;
             outputEle = document.createElement("output");
             outputEle.id = 'list';
             outputEle.addEventListener("click",imgController.handleLightBoxEvent,false);
-            sec.appendChild(outputEle);
-            
+            return outputEle;
+            //sec.appendChild(outputEle);
+        },
+        createSpanElement : function (desc) {
+            var spanEle, spanText;
+            spanEle = document.createElement("span");
+            spanEle.className = 'notes';
+            spanText = document.createTextNode(desc);
+            spanEle.appendChild(spanText);
+            //sec.appendChild(spanEle);
+            return spanEle;
         },
         displayThumbNails : function (e) {
             //showing uploaded images as thumbnails format
@@ -45,11 +60,17 @@ var imageGalleryView =  function(imgController) {
             span.appendChild(image);
             document.getElementById('list').insertBefore(span, null);
         },
-        addFileElement : function() {
-            var secEle, fileEle;
+        createSectionEle : function () {
+            var secEle;
             secEle = document.createElement("section");
             secEle.className = 'uploadFile';
-            sec.appendChild(secEle);
+            return secEle;
+        },
+        createFileElement : function() {
+            var fileEle;
+            /* = document.createElement("section");
+            secEle.className = 'uploadFile';
+            sec.appendChild(secEle);*/
             
             //File upload element with multiple attribute and event
             fileEle = document.createElement("input");
@@ -61,13 +82,16 @@ var imageGalleryView =  function(imgController) {
                 e.preventDefault();
                 imgController.handleImageEvents(e,0);
             }, false);
-            secEle.appendChild(fileEle);
+            //secEle.appendChild(fileEle);
+            return fileEle;
+            
         },
         addDragDropEle : function() {
             //drag and drop div creations
-            var divEle, innerDiv;
-            divEle = document.createElement("div");
-            divEle.className = 'class="dragdrop">';
+            var divEle, innerDiv, sec;
+            sec = document.getElementsByTagName("section")[0];
+            /*divEle = document.createElement("div");
+            divEle.className = 'dragdrop';*/
             sec.appendChild(divEle);
             //div inside above div
             innerDiv = document.createElement("div");
@@ -90,27 +114,7 @@ var imageGalleryView =  function(imgController) {
 var imageGalleryModel = function () {
     return {
         removeHandler : function (imgControllerObj, ele) {
-            var divEle, fileEle, outEle;
-            if(ele === 'drag') {
-                divEle = document.getElementById('drop_zone');
-                divEle.removeEventListener('drop', imgControllerObj.handleImageEvents, false);
-                divEle.removeEventListener('dragover', imgControllerObj.handleMouseOverEvent, false);
-                divEle.removeEventListener('dragenter', imgControllerObj.handleMouseEnterEvent, false);
-                divEle.removeEventListener('dragleave', imgControllerObj.handleMouseLeaveEvent, false);
-            }
             
-            //file handler removal
-            if(ele === 'file') {
-                fileEle = document.getElementsByTagName("input")[0];
-                if(fileEle.type === 'file') {
-                    fileEle.removeEventListener('change', imgControllerObj.handleImageEvents, false);
-                }
-            }
-            
-            if(ele === 'outEle') {
-                outEle = document.getElementById("list");
-                outEle.removeEventListener('click', imgControllerObj.handleLightBoxEvent, false)
-            }
         } 
     };
 };
@@ -154,10 +158,10 @@ var imageGalleryController =  function() {
                 alert('Only image files are allowed');
             }
             if(opt === 0) {
-                imgModel.removeHandler(this,'file');
+                this.removeEventHandlers('file');
             }
             if(opt === 1) {
-                imgModel.removeHandler(this,'drag');
+                this.removeEventHandlers('drag');
             }
         },
         handleLightBoxEvent : function(e) {
@@ -170,7 +174,6 @@ var imageGalleryController =  function() {
                 imgs[imgLoop].dataset.imgid = imgLoop;
                 imageArray[imgLoop] = imgs[imgLoop].src;
             }
-            imgModel.removeHandler(this,'outEle');
             document.getElementById("overlayElement").style.display = 'block';
             lightbox = new Lightbox('list');
             lightbox.createOverlay(evt);
@@ -189,9 +192,27 @@ var imageGalleryController =  function() {
                 evt.stopPropagation();
                 evt.dataTransfer.effectAllowed = 'copyMove';
         },
+        removeEventHandlers : function (ele) {
+            var divEle, fileEle, outEle;
+            if(ele === 'drag') {
+                divEle = document.getElementById('drop_zone');
+                divEle.removeEventListener('drop', this.handleImageEvents, false);
+                divEle.removeEventListener('dragover', this.handleMouseOverEvent, false);
+                divEle.removeEventListener('dragenter', this.handleMouseEnterEvent, false);
+                divEle.removeEventListener('dragleave', this.handleMouseLeaveEvent, false);
+            }
+            
+            //file handler removal
+            if(ele === 'file') {
+                fileEle = document.getElementsByTagName("input")[0];
+                if(fileEle.type === 'file') {
+                    fileEle.removeEventListener('change', this.handleImageEvents, false);
+                }
+            }
+        },
         showForm : function() { 
             viewForm = imageGalleryView(this);
-            viewForm.displayForm();
+            viewForm.displayUI();
         }
      };
 }; 

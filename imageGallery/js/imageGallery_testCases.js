@@ -1,5 +1,6 @@
-var ip, drag, img, outputEle, imgDisplay, overlayEle;
+var ip, drag, img, outputEle, imgDisplay, overlayEle, imgView;
 imgDisplay =new imageGalleryController();
+imgView = new imageGalleryView(imgDisplay);
 test("Image Gallery components", function() {
     ip = document.getElementsByTagName("input")[0].type;
     notEqual(ip, 'file','Input file tag not yet created');
@@ -10,11 +11,18 @@ test("Image Gallery components", function() {
 });
 
 test("Image Gallery components", function() {
-    imgDisplay.showForm();
+    //imgDisplay.showForm();
+    var  fileEle, sectionEle;
+    
+    fileEle = imgView.createFileElement();
+    sectionEle = document.getElementsByTagName("section")[0];
+    imgView.addElement(sectionEle,fileEle);
     ip = document.getElementById("files").type;
     equal(ip, 'file','Input file tag created');
-    drag = document.getElementById("drop_zone");
-    notEqual(drag, 'drop_zone','Drag and drop created');
+    
+    imgView.addDragDropEle();
+    drag = document.getElementById("drop_zone").id;
+    equal(drag, 'drop_zone','Drag and drop created');
     img = document.getElementsByTagName("img")[0];
     equal(img,undefined,'Image Tags not yet exist');
     
