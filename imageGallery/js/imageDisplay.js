@@ -50,7 +50,6 @@ var ImageGalleryView =  function(imgController) {
             spanEle.className = 'notes';
             spanText = document.createTextNode(desc);
             spanEle.appendChild(spanText);
-            //sec.appendChild(spanEle);
             return spanEle;
         },
         displayThumbNails : function (imgSrc, imgName) {
@@ -82,7 +81,6 @@ var ImageGalleryView =  function(imgController) {
                 e.preventDefault();
                 imgController.handleImageEvents(e,0);
             }, false);
-            //secEle.appendChild(fileEle);
             return fileEle;
 
         },
@@ -154,7 +152,7 @@ var ImageGalleryController =  function() {
                          viewForm =  new ImageGalleryView(this);
                          viewForm.displayThumbNails(imageSrc, imgName);
                      }
-                 }
+                 };
                  reader.readAsDataURL(FileData);
             }
             if(otherFormat > 1) {
