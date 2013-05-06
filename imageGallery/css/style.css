@@ -8,25 +8,41 @@
     text-align:center;
 }
 .selectChoice .uploadFile {
-    margin-left:20%;
+    margin-left:15%;
+    padding: 10px;
 }
 
 .selectChoice {
     border-radius: 5px;
-    margin-left:20%;
-    width: 30%
+    margin-left:35%;
+    width: 40%;
+    padding: 15px;
+    text-decoration: Arial;
 }
 
+.bodyColor {
+    background-color:#b0c4de;
+    font-family:"Times New Roman", Times, serif;
+    font-style:italic;
+}
 .selectChoice .notes {
     border: 10px;
     padding: 10px;
 }
 
+.sideBar {
+    width:20%;
+    border:10px;
+}
+.selectChoice .dragdrop {
+    padding: 10px;
+    width:80%;
+}
 .selectChoice .dropZone {
-    border: 2px dashed #BBBBBB;
+    border: 2px dashed #00000C;
     border-radius: 5px 5px 5px 5px;
-    color: #BBBBBB;
+    color: #0000CC;
     padding: 25px;
     text-align: center;
-    margin-left:20%;
+    margin-left:15%;
 }
