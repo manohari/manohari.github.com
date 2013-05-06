@@ -61,7 +61,7 @@ var ImageGalleryView =  function(imgController) {
             image.title = imgName;
             image.src = imgSrc;
             span.appendChild(image);
-            document.getElementById('list').insertBefore(span, null);
+            document.getElementsByTagName('output')[0].insertBefore(span, null);
         },
         createEle : function (htmlTag, attribute) {
             var htmlEle;
@@ -175,7 +175,7 @@ var ImageGalleryController =  function() {
                 imgs[imgLoop].dataset.imgid = imgLoop;
                 imageArray[imgLoop] = imgs[imgLoop].src;
             }
-            document.getElementById("overlayElement").style.display = 'block';
+            document.getElementsByClassName("overlayElement")[0].style.display = 'block';
             lightbox = new Lightbox('list');
             lightbox.createOverlay(evt);
         },
@@ -196,7 +196,7 @@ var ImageGalleryController =  function() {
         removeEventHandlers : function (ele) {
             var divEle, fileEle, outEle;
             if(ele === 'drag') {
-                divEle = document.getElementById('drop_zone');
+                divEle = document.getElementsByClassName('dropZone')[0];
                 divEle.removeEventListener('drop', this.handleImageEvents, false);
                 divEle.removeEventListener('dragover', this.handleMouseOverEvent, false);
                 divEle.removeEventListener('dragenter', this.handleMouseEnterEvent, false);

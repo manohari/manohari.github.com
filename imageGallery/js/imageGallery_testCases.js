@@ -7,7 +7,7 @@ test("Image Gallery components", function() {
     ip = document.getElementsByTagName("input")[0].type;
     notEqual(ip, 'file','Input file tag not yet created');
 
-    drag = document.getElementById("drop_zone");
+    drag = document.getElementsByClassName("dropZone")[0];
     notEqual(drag, 'drop_zone','Drag and drop object not yet created');
 
     img = document.getElementsByTagName("img")[0];
@@ -28,19 +28,19 @@ test("Image Gallery components", function() {
     divEle = imgView.createEle("div", "dragdrop");
     imgView.addElement(sectionEle, divEle);
 
-    drag = document.getElementById("drop_zone");
+    drag = document.getElementsByClassName("dropZone")[0];
     equal(drag, null,'Drag and drop not yet created');
 
     dragDropEle = imgView.createDragDropEle();
     imgView.addElement(divEle, dragDropEle);
 
-    drag = document.getElementById("drop_zone");
+    drag = document.getElementsByClassName("dropZone")[0];
     equal(dragDropEle.id, 'drop_zone','Drag and drop created');
 
     img = document.getElementsByTagName("img")[0];
     equal(img,undefined,'Image Tags not yet exist');
 
-    overlayEle = document.getElementById("overlayElement");
+    overlayEle = document.getElementsByClassName("overlayElement")[0];
     equal(overlayEle.className, 'overlayElement', 'Lightbox div exist');
 });
 test("Image Gallery components", function(e) {
@@ -48,12 +48,12 @@ test("Image Gallery components", function(e) {
     var outputTag, outputEle, imgTag, imgPath, lightbox;
     sectionEle = document.getElementsByTagName("section")[0];
 
-    outputEle = document.getElementById('list');
+    outputEle = document.getElementsByTagName('output')[0];
     equal(outputEle,null, "output tag doesnt exist");
 
     outputTag = imgView.createOutputEle();
     imgView.addElement(sectionEle, outputTag);
-    outputEle = document.getElementById('list');
+    outputEle = document.getElementsByTagName('output')[0];
     equal(outputTag.id,'list', "output tag exist");
 
     imgPath = '../images/image-4.jpg';
@@ -67,7 +67,7 @@ test("Image Gallery components", function(e) {
     equal(imgTag.dataset.imgid,0, "one image is updated");
     imgDisplay.handleLightBoxEvent(e);
 
-    overlayEle = document.getElementById("overlayElement");
+    overlayEle = document.getElementsByClassName("overlayElement")[0];
     equal(overlayEle.style.display, 'block', "Lightbox layer shown");
     lightbox = new Lightbox('list');
     lightbox.createOverlay(imgTag);
