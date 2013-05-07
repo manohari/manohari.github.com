@@ -97,9 +97,9 @@ var ImageGalleryView =  function(imgController) {
             innerDiv.addEventListener('drop',function(e) {
                 imgController.handleImageEvents(e,1);
             }, false);
-            innerDiv.addEventListener('dragover', imgController.handleMouseOverEvent, false);
-            innerDiv.addEventListener('dragleave', imgController.handleMouseLeaveEvent, false);
-            innerDiv.addEventListener('dragenter', imgController.handleMouseEnterEvent, false);
+            innerDiv.addEventListener('dragover', function(e) { imgController.handleMouseEvents(e,'dragOver'); }, false);
+            innerDiv.addEventListener('dragleave', function(e) { imgController.handleMouseEvents(e, 'dragLeave'); }, false);
+            innerDiv.addEventListener('dragenter', function(e) { imgController.handleMouseEvents(e, 'dragEnter'); }, false);
 
             innerDiv.appendChild(document.createTextNode('Drop files here'));
             return innerDiv;
@@ -120,8 +120,42 @@ var ImageGalleryModel = function () {
 var ImageGalleryController =  function() {
     "use strict";
     //controller display html view and handle business logic of image reading and showing
-    var viewForm, imgModel, reader, imgName, imageSrc;
+    var viewForm, imgModel, reader, imgName, imageSrc, _this = this;
     imgModel = new ImageGalleryModel();
+
+      function handleMouseOverEvent (evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+                evt.dataTransfer.dropEffect = 'move';
+        }
+        function handleMouseLeaveEvent (evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+        }
+        function handleMouseEnterEvent (evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+                evt.dataTransfer.effectAllowed = 'copyMove';
+        }
+        function removeEventHandlers(handler, ele) {
+            var divEle, fileEle, outEle;
+            if(ele === 'drag') {
+                divEle = document.getElementsByClassName('dropZone')[0];
+                divEle.removeEventListener('drop', handler.handleImageEvents, false);
+                divEle.removeEventListener('dragover', handler.handleMouseEvents, false);
+                divEle.removeEventListener('dragenter', handler.handleMouseEvents, false);
+                divEle.removeEventListener('dragleave', handler.handleMouseEvents, false);
+            }
+
+            //file handler removal
+            if(ele === 'file') {
+                fileEle = document.getElementsByTagName("input")[0];
+                if(fileEle.type === 'file') {
+                    fileEle.removeEventListener('change', handler.handleImageEvents, false);
+                }
+            }
+        }
+
     return {
         handleImageEvents : function(e,opt){
             //File Reader API of HTML5 used to read image and display
@@ -158,11 +192,11 @@ var ImageGalleryController =  function() {
             if(otherFormat > 1) {
                 alert('Only image files are allowed');
             }
-            if(opt === 0) {
-                this.removeEventHandlers('file');
+            if (opt === 0) {
+                removeEventHandlers(this, 'file');
             }
-            if(opt === 1) {
-                this.removeEventHandlers('drag');
+            if (opt === 1) {
+                removeEventHandlers(this, 'drag');
             }
         },
         handleLightBoxEvent : function(e) {
@@ -179,36 +213,15 @@ var ImageGalleryController =  function() {
             lightbox = new Lightbox('list');
             lightbox.createOverlay(evt);
         },
-        handleMouseOverEvent : function(evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-                evt.dataTransfer.dropEffect = 'move';
-        },
-        handleMouseLeaveEvent : function(evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-        },
-        handleMouseEnterEvent : function(evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-                evt.dataTransfer.effectAllowed = 'copyMove';
-        },
-        removeEventHandlers : function (ele) {
-            var divEle, fileEle, outEle;
-            if(ele === 'drag') {
-                divEle = document.getElementsByClassName('dropZone')[0];
-                divEle.removeEventListener('drop', this.handleImageEvents, false);
-                divEle.removeEventListener('dragover', this.handleMouseOverEvent, false);
-                divEle.removeEventListener('dragenter', this.handleMouseEnterEvent, false);
-                divEle.removeEventListener('dragleave', this.handleMouseLeaveEvent, false);
+        handleMouseEvents : function(e, mouseAction) {
+            if (mouseAction === "dragOver") {
+                handleMouseOverEvent(e);
             }
-
-            //file handler removal
-            if(ele === 'file') {
-                fileEle = document.getElementsByTagName("input")[0];
-                if(fileEle.type === 'file') {
-                    fileEle.removeEventListener('change', this.handleImageEvents, false);
-                }
+            else if (mouseAction === 'dragLeave') {
+                handleMouseLeaveEvent(e);
+            }
+            else if (mouseAction === 'dragEnter') {
+                handleMouseEnterEvent(e);
             }
         },
         showUI : function() {
