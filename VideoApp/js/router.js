@@ -4,3 +4,8 @@ Video.Router.map(function() {
     this.route('playList');
 });
 
+Video.IndexRoute = Ember.Route.extend({
+  redirect: function() {
+    this.transitionTo('video');
+  }
+});
