@@ -1,1 +1,1 @@
-App = Ember.Application.create();
+window.Video = Ember.Application.create();

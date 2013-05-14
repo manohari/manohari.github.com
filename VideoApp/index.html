@@ -1,50 +1,46 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html>
 <head>
-<style type="text/css">
-#boxA, #boxB {
-   float:left;padding:10px;margin:10px;-moz-user-select:none;
-}
-#boxA { background-color: #6633FF; width:75px; height:75px;  }
-#boxB { background-color: #FF6699; width:auto; height:auto; }
-</style>
-<script type="text/javascript">
-function dragStart(ev) {
-   ev.dataTransfer.effectAllowed='move';
-   ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
-   ev.dataTransfer.setDragImage(ev.target,0,0);
-   return true;
-}
-function dragEnter(ev) {
-   event.preventDefault();
-   return true;
-}
-function dragOver(ev) {
-    return false;
-}
-function dragDrop(ev) {
-   var src = ev.dataTransfer.files;
-   ev.target.appendChild(document.getElementById(src));
-   ev.stopPropagation();
-   return false;
-}
-</script>
+    <meta charset="utf-8">
+    <title>Video List</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h2>Drag and drop HTML5 demo</h2>
-<div>Try to move the purple box into the pink box.</div>
+    <script type="text/x-handlebars" data-template-name = "video">
+        <h1>Video Player</h1>
+        <div id = 'videoDiv' class = "videoDiv">
+            <video width="300px" height="300px" controls = "controls" class="videoDisplay">
+                {{view Video.videoView}}
+            </video>
 
-<div id="boxA" draggable="true" ondragstart="return dragStart(event)">
-   <p>Drag Me</p>
+        </div>
 
-</div>
-<div id="boxB" ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)"
-     ondragover="return dragOver(event)">
-     <video  autoplay="autoplay" loop="loop" controls="controls" tabindex="0">
-            <source src="pass-countdown.ogg" type='video/ogg; codecs="theora, vorbis"' />
-        </video>
-     </div>
+    </script>
+    <script type="text/x-handlebars" data-template-name = "playList" >
+        {{outlet}}
+        <h1>Video PlayList</h1>
+        {{view Video.playListView}}
 
+    </script>
+
+  <footer class = "footerDesc">
+    <p>developed by manu</p>
+  </footer>
+
+  </script>
+
+  <script src="lib/jquery.js"></script>
+  <script src="lib/handlebars.js"></script>
+  <script src="lib/ember.js"></script>
+  <script src="lib/ember-data.js"></script>
+  <script src="js/libs/local_storage_adapter.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/router.js"></script>
+
+  <!--<script src="js/models/videos.js"></script> -->
+  <script src="js/controllers/video_controller.js"></script>
+  <!--<script src="js/controllers/videosPlaylist_controller.js"></script> -->
+  <script src="js/views/video_view.js"></script>
 </body>
 </html>
