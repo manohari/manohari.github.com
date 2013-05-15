@@ -1,7 +1,7 @@
 Video.Router.map(function() {
     "use strict";
-    this.route('video'); //This is the default route
-    this.route('playList');
+    this.route('video');
+    this.route('addFile')
 });
 
 Video.IndexRoute = Ember.Route.extend({
@@ -9,3 +9,5 @@ Video.IndexRoute = Ember.Route.extend({
     this.transitionTo('video');
   }
 });
+
+

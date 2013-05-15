@@ -8,20 +8,35 @@
 <body>
 
     <script type="text/x-handlebars" data-template-name = "video">
-        <h1>Video Player</h1>
         <div id = 'videoDiv' class = "videoDiv">
+            <h1>Video Player</h1>
             <video width="300px" height="300px" controls = "controls" class="videoDisplay">
                 {{view Video.videoView}}
             </video>
-
+            {{render playList}}
         </div>
 
     </script>
     <script type="text/x-handlebars" data-template-name = "playList" >
         {{outlet}}
+        <div class = 'playlsitDiv'>
         <h1>Video PlayList</h1>
-        {{view Video.playListView}}
+        <h2>Add Video Files To PlayList</h2>
+            {{render addFile}}
+            {{#view Video.playListSecView}}
+                {{#view Video.outputTag}}
+                    {{#each item in Video.playListController.videoTags}}
 
+                    {{/each}}
+                {{/view}}
+
+            {{/view}}
+        </div>
+    </script>
+    <script type="text/x-handlebars" data-template-name = "addFile" >
+        {{#view Video.addFileTag controllerBinding = "Video.playListController"}}
+
+        {{/view}}
     </script>
 
   <footer class = "footerDesc">

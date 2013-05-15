@@ -5,8 +5,25 @@ Video.videoView = Ember.View.extend({
     attributeBindings : 'src type'.w()
 });
 
-Video.playListView = Ember.View.extend({
+Video.playListSecView = Ember.View.extend({
   tagName: 'section',
   classNames: ['playlsit']
+});
+
+Video.outputTag = Ember.View.extend({
+    tagName : 'output',
+    id : ['videoList'],
+    classNames : ['videoList']
+});
+
+Video.addFileTag = Ember.TextField.extend({
+    type: 'file',
+    multiple : true,
+    attributeBindings: "multiple".w(),
+    change: function(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        this.get('controller').addVideo(evt);
+    }
 });
 
