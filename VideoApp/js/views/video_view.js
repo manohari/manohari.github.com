@@ -2,7 +2,8 @@ Video.videoView = Ember.View.extend({
     tagName : "source",
     src : 'pass-countdown.ogg',
     type : 'video/ogg',
-    attributeBindings : 'src type'.w()
+    classNames : 'videoFile',
+    attributeBindings : "src type classNames".w()
 });
 
 Video.playListSecView = Ember.View.extend({
@@ -16,10 +17,12 @@ Video.outputTag = Ember.View.extend({
     classNames : ['videoList']
 });
 
-Video.addFileTag = Ember.TextField.extend({
+Video.addFileTag = Ember.View.extend({
+    tagName : "input",
     type: 'file',
     multiple : true,
-    attributeBindings: "multiple".w(),
+    classNames : 'addFiles',
+    attributeBindings: "type multiple classNames".w(),
     change: function(evt) {
         evt.preventDefault();
         evt.stopPropagation();

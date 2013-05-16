@@ -22,21 +22,26 @@
         <div class = 'playlsitDiv'>
         <h1>Video PlayList</h1>
         <h2>Add Video Files To PlayList</h2>
-            {{render addFile}}
+            {{view Video.addFileTag controllerBinding="Video.playListController" bubbles=false}}
+            <div class="dropFiles">
+                Drop Files here
+            </div>
+
             {{#view Video.playListSecView}}
                 {{#view Video.outputTag}}
-                    {{#each item in Video.playListController.videoTags}}
+                    {{#each item in Video.playListController}}
+                        <div {{bindAttr id = "{{item.id}}"}}>
+                            <video class="displayVideos" controls="controls">
+                               <source {{bindAttr type="item.fileExt"}} {{bindAttr src = "item.src"}}>I,m sorry browser doesnt support this</source>
 
+                            </video>
+                        </div>
+                        <br>
                     {{/each}}
                 {{/view}}
 
             {{/view}}
         </div>
-    </script>
-    <script type="text/x-handlebars" data-template-name = "addFile" >
-        {{#view Video.addFileTag controllerBinding = "Video.playListController"}}
-
-        {{/view}}
     </script>
 
   <footer class = "footerDesc">
@@ -52,8 +57,7 @@
   <script src="js/libs/local_storage_adapter.js"></script>
   <script src="js/app.js"></script>
   <script src="js/router.js"></script>
-
-  <!--<script src="js/models/videos.js"></script> -->
+  <script src="js/models/video.js"></script>
   <script src="js/controllers/video_controller.js"></script>
   <!--<script src="js/controllers/videosPlaylist_controller.js"></script> -->
   <script src="js/views/video_view.js"></script>
