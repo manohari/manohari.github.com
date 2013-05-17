@@ -23,18 +23,16 @@
         <h1>Video PlayList</h1>
         <h2>Add Video Files To PlayList</h2>
             {{view Video.addFileTag controllerBinding="Video.playListController" bubbles=false}}
-            <div class="dropFiles">
-                Drop Files here
-            </div>
-
+            {{#view Video.DropTarget class="dropFiles" bubbles=false}} Drop files here {{/view}}
             {{#view Video.playListSecView}}
                 {{#view Video.outputTag}}
                     {{#each item in Video.playListController}}
                         <div {{bindAttr id = "{{item.id}}"}}>
+                            <span class="close" {{action removeVideo item target="Video.playListController" bubbles=false}}> x </span>
                             <video class="displayVideos" controls="controls">
                                <source {{bindAttr type="item.fileExt"}} {{bindAttr src = "item.src"}}>I,m sorry browser doesnt support this</source>
-
-                            </video>
+                            </video><br>
+                            <span class="titleDesc">{{item.titleName}}</span>
                         </div>
                         <br>
                     {{/each}}

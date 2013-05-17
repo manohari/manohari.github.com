@@ -25,8 +25,8 @@ Video.addFileTag = Ember.View.extend({
     attributeBindings: "type multiple classNames".w(),
     change: function(evt) {
         evt.preventDefault();
-        evt.stopPropagation();
-        this.get('controller').addVideo(evt);
+        this.get('controller').addVideo(evt,0);
     }
 });
 
+Video.DropTarget = Ember.View.extend(DragNDrop.Droppable);

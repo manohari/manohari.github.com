@@ -3,30 +3,53 @@ Video.videoController = Ember.Controller.extend({
 });
 
 Video.playListController =  Ember.ArrayController.create({
-    addVideo : function (ele) {
-        var files, loop, reader, vele, self = this,fileType;
-        files = ele.target.files;
+    content : [],
+    vele : null,
+    addVideo : function (ele,opt) {
+        var files, loop, reader, self = this, fileData;
+        if(opt === 0) {
+            files = ele.target.files;
+        }
+        else {
+            files = ele.dataTransfer.files;
+        }
         for(loop = 0; loop < files.length; loop += 1) {
-            fileType = files[loop].type;
-            if(fileType.match('video/webm') || fileType.match('video/mp4') || fileType.match('video/ogg')) {
+            fileData = files[loop];
+            var manu = fileData.name;
+            if(fileData.type.match('video/webm') || fileData.type.match('video/mp4') || fileData.type.match('video/ogg')) {
                 reader = new FileReader();
-                reader.onload = function(e) {
-                    vele = Video.VideoEle.create({
-                        src : e.target.result,
-                        id : loop,
-                        fileExt : fileType
-                   });
-                   self.pushObject(vele);
-                };
+                reader.onload = (function(f) {
+                    return function(e) {
+                        vele = Video.VideoEle.create({
+                                        titleName : f.name,
+                                        src : e.target.result,
+                                        fileExt : f.type,
+                                        id : loop
+                                   });
+                         self.pushObject(vele);
+                    };
+                })(files[loop]);
                 reader.readAsDataURL(files[loop]);
             }
         }
 
+    },
+    removeVideo : function (ele) {
+        this.removeObject(ele);
+
     }
 });
-
 DragNDrop.cancel = function(event) {
     event.preventDefault();
     return false;
 };
+DragNDrop.Droppable = Ember.Mixin.create({
+    dragEnter: DragNDrop.cancel,
+    dragOver: DragNDrop.cancel,
+    drop: function(event) {
+        event.preventDefault();
+        Video.playListController.addVideo(event,1);
+        return false;
+    }
+});
 
