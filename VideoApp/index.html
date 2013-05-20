@@ -28,7 +28,7 @@
                 <button {{action "loadNames" target="Video.playListController"}}>Go!</button>
             {{#view Video.playListSecView}}
                 {{#view Video.outputTag}}
-                    {{#each item in Video.playListController}}
+                    {{#each item in Video.playListController.content}}
                         <div {{bindAttr id = "{{item.divNum}}"}}>
                             <span class="close" {{action removeVideo item target="Video.playListController" bubbles=false}}> x </span>
                             <video class="displayVideos" controls="controls">

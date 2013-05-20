@@ -27,7 +27,7 @@ Video.playListController =  Ember.ArrayController.create({
         for(loop = 0; loop < files.length; loop += 1) {
             fileData = files[loop];
             var manu = fileData.name;
-           // if(fileData.type.match('video/webm') || fileData.type.match('video/mp4') || fileData.type.match('video/ogg')) {
+            if(fileData.type.match('video/webm') || fileData.type.match('video/mp4') || fileData.type.match('video/ogg')) {
                 reader = new FileReader();
                 reader.onload = (function(f) {
                     return function(e) {
@@ -42,7 +42,7 @@ Video.playListController =  Ember.ArrayController.create({
                     };
                 })(files[loop]);
                 reader.readAsDataURL(files[loop]);
-            //}
+            }
         }
 
     },
@@ -53,10 +53,7 @@ Video.playListController =  Ember.ArrayController.create({
     loadNames : function () {
         var self ,titleName,names;
         titleName = this.get('titleName');
-       /* return this.get('content').filter(function(item){
-            //filter property here
-           return titleName.contains(item.get('titleName'));
-        });*/
+        return this.get('content').filterProperty("titleName",titleName);
     }
 
 });
