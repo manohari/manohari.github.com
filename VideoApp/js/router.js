@@ -1,11 +1,16 @@
 Video.Router.map(function() {
     "use strict";
-    this.route('video');
+    this.route('playList');
 });
 
 Video.IndexRoute = Ember.Route.extend({
   redirect: function() {
-    this.transitionTo('video');
+    this.transitionTo('playList');
   }
 });
+Video.PlayListRoute = Ember.Route.extend({
+  model: function () {
+    return Video.VideoEle.find();
+  }
 
+});

@@ -7,11 +7,24 @@
     right: 10px;
     position:absolute;
 }
+.videoDiv {
+    float:left;
+    width:50%;
+}
+
+.playlsit {
+    border: 1px solid;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height:20%;
+}
 
 .playlsitDiv {
     float:right;
     top:0;
     margin-right: 20%;
+    height:40%;
+
 }
 .displayVideos {
     width:250px;
@@ -40,4 +53,12 @@
     margin: 5px;
     padding: 2px 10px 5px;
     position:relative;
+}
+.titleDesc {
+    float:right;
+}
+
+.videoApp {
+    background-color: #CCFFCC;
+    margin-left:30%;
 }

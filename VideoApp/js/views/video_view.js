@@ -30,3 +30,10 @@ Video.addFileTag = Ember.View.extend({
 });
 
 Video.DropTarget = Ember.View.extend(DragNDrop.Droppable);
+
+Video.SearchTextField = Em.TextField.extend({
+    insertNewline: function(){
+
+        Video.playListController.loadNames();
+    }
+});

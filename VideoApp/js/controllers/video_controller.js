@@ -1,6 +1,17 @@
-Video.videoController = Ember.Controller.extend({
-
+DragNDrop.cancel = function(event) {
+    event.preventDefault();
+    return false;
+};
+DragNDrop.Droppable = Ember.Mixin.create({
+    dragEnter: DragNDrop.cancel,
+    dragOver: DragNDrop.cancel,
+    drop: function(event) {
+        event.preventDefault();
+        Video.playListController.addVideo(event,1);
+        return false;
+    }
 });
+
 
 Video.playListController =  Ember.ArrayController.create({
     content : [],
@@ -20,12 +31,13 @@ Video.playListController =  Ember.ArrayController.create({
                 reader = new FileReader();
                 reader.onload = (function(f) {
                     return function(e) {
-                        vele = Video.VideoEle.create({
+                        vele = Video.VideoEle.createRecord({
                                         titleName : f.name,
                                         src : e.target.result,
                                         fileExt : f.type,
-                                        id : loop
+                                        divNum : loop
                                    });
+                                   content = f.name;
                          self.pushObject(vele);
                     };
                 })(files[loop]);
@@ -37,19 +49,15 @@ Video.playListController =  Ember.ArrayController.create({
     removeVideo : function (ele) {
         this.removeObject(ele);
 
+    },
+    loadNames : function () {
+        var self ,titleName,names;
+        titleName = this.get('titleName');
+        return this.get('content').filter(function(item){
+            //filter property here
+           return titleName.contains(item.get('titleName'));
+        });
     }
-});
-DragNDrop.cancel = function(event) {
-    event.preventDefault();
-    return false;
-};
-DragNDrop.Droppable = Ember.Mixin.create({
-    dragEnter: DragNDrop.cancel,
-    dragOver: DragNDrop.cancel,
-    drop: function(event) {
-        event.preventDefault();
-        Video.playListController.addVideo(event,1);
-        return false;
-    }
+
 });
 

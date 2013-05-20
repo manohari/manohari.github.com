@@ -1,6 +1,6 @@
-Video.VideoEle = Ember.Object.extend({
-    titleName : null,
-    src : null,
-    id:null,
-    fileExt : null
+Video.VideoEle = DS.Model.extend({
+    titleName: DS.attr('string'),
+    src : DS.attr('string'),
+    divNum : DS.attr('number'),
+    fileExt : DS.attr('string')
 });
