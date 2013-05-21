@@ -31,7 +31,7 @@ Video.playListController =  Ember.ArrayController.create({
                 reader.onload = (function(f,num) {
                     return function(e) {
                         vele = Video.VideoEle.createRecord({
-                                        titleName: f.name,
+                                        titleName: f.name.split(".")[0],
                                         src: e.target.result,
                                         fileExt: f.type,
                                         divNum: num+1
