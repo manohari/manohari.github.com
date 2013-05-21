@@ -9,6 +9,7 @@
 }
 .videoDiv {
     float:left;
+    border: 1px double;
 }
 
 .playlsit {
@@ -23,6 +24,7 @@
     top:0;
     margin-right: 20%;
     height:40%;
+    border:1px dotted;
 
 }
 .displayVideos {

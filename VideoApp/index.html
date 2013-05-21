@@ -29,13 +29,13 @@
             {{#view Video.playListSecView}}
                 {{#view Video.outputTag}}
                     {{#each item in Video.playListController.content}}
-                        <div {{bindAttr id = "{{item.divNum}}"}}>
+                        <div {{bindAttr id = "item.divNum"}}>
                             <span class="close" {{action removeVideo item target="Video.playListController" bubbles=false}}> x </span>
-                            <video class="displayVideos" controls="controls">
+                            <video class="displayVideos" controls="controls" >
                                <source {{bindAttr type="item.fileExt"}} {{bindAttr src = "item.src"}}>I,m sorry browser doesnt support this</source>
                             </video><br>
                         </div>
-                        <div class="titleDesc">{{item.titleName}}</div>
+                        <div class="titleDesc" >{{item.titleName}}</div>
                         <br>
                     {{/each}}
                     <input type ="hidden" {{bindAttr value=item}} class="titles">

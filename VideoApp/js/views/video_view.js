@@ -25,6 +25,7 @@ Video.addFileTag = Ember.View.extend({
     attributeBindings: "type multiple classNames".w(),
     change: function(evt) {
         evt.preventDefault();
+        //console.log(Video.playListController);
         this.get('controller').addVideo(evt,0);
     }
 });
@@ -33,10 +34,7 @@ Video.DropTarget = Ember.View.extend(DragNDrop.Droppable);
 
 Video.SearchTextField = Em.TextField.extend({
     insertNewline: function(){
-        var titleName = this.get('value');
-        /*return this.get('controller.content').filter(function(item){
-            return titleName.contains(item.get('titleName'));
-        })*/
-        Video.playListController.loadNames();
+       Video.playListController.loadNames();
     }
+
 });
