@@ -13,6 +13,27 @@ DragNDrop.Droppable = Ember.Mixin.create({
 });
 
 
+DragNDrop.DroppableVideo = Ember.Mixin.create({
+    dragEnter: DragNDrop.cancel,
+    dragOver: DragNDrop.cancel,
+    drop: function(event) {
+        event.preventDefault();
+
+      //  console.log($('.titles').val())
+        $('.videoFile')[0].src = $('.titles').val();
+        console.log($('.videoFile')[0].src)
+        //Video.playListController.addVideo(event,1);
+        return false;
+    }
+});
+DragNDrop.Dragable = Ember.Mixin.create({
+    attributeBindings: 'draggable',
+    draggable: 'true',
+    dragStart: function(event) {
+        var dataTransfer = event.originalEvent.dataTransfer;
+        dataTransfer.setData('Text', this.get('elementId'));
+    }
+});
 Video.playListController =  Ember.ArrayController.create({
     content : [],
     vele : [],
@@ -47,10 +68,7 @@ Video.playListController =  Ember.ArrayController.create({
     },
     removeVideo : function (rec) {
         var deleVideo = this.get('model');
-        //console.log(rec);
         this.removeObject(rec);
-       // deleVideo.deleteRecord();
-        //deleVideo.save();
 
 
     },

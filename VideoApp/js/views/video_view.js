@@ -1,4 +1,4 @@
-Video.videoView = Ember.View.extend({
+Video.VideoView = Ember.View.extend({
     tagName : "source",
     src : 'pass-countdown.ogg',
     type : 'video/ogg',
@@ -6,18 +6,18 @@ Video.videoView = Ember.View.extend({
     attributeBindings : "src type classNames".w()
 });
 
-Video.playListSecView = Ember.View.extend({
+Video.PlayListSecView = Ember.View.extend({
   tagName: 'section',
   classNames: ['playlsit']
 });
 
-Video.outputTag = Ember.View.extend({
+Video.OutputTag = Ember.View.extend({
     tagName : 'output',
     id : ['videoList'],
     classNames : ['videoList']
 });
 
-Video.addFileTag = Ember.View.extend({
+Video.AddFileTag = Ember.View.extend({
     tagName : "input",
     type: 'file',
     multiple : true,
@@ -25,12 +25,13 @@ Video.addFileTag = Ember.View.extend({
     attributeBindings: "type multiple classNames".w(),
     change: function(evt) {
         evt.preventDefault();
-        //console.log(Video.playListController);
         this.get('controller').addVideo(evt,0);
     }
 });
 
 Video.DropTarget = Ember.View.extend(DragNDrop.Droppable);
+Video.DragDiv = Ember.View.extend(DragNDrop.Dragable);
+Video.DropVideo = Ember.View.extend(DragNDrop.DroppableVideo);
 
 Video.SearchTextField = Em.TextField.extend({
     insertNewline: function(){

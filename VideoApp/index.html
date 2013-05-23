@@ -10,57 +10,53 @@
     <script type="text/x-handlebars" data-template-name = "video">
         <div id = 'videoDiv' class = "videoDiv">
             <h1>Video Player</h1>
-            <video width="300px" height="300px" controls = "controls" class="videoDisplay">
-                {{view Video.videoView}}
-            </video>
+           {{#view Video.DropVideo  bubbles=false}}
+                <video width="300px" height="300px" controls = "controls" class="videoDisplay">
+                    {{view Video.VideoView}}
+                </video>
+          {{/view}}
         </div>
-
+        {{outlet}}
     </script>
     <script type="text/x-handlebars" data-template-name = "playList" >
-        {{outlet}}
         {{render video}}
         <div class = 'playlsitDiv'>
         <h1>Video PlayList</h1>
         <h2>Add Video Files To PlayList</h2>
-            {{view Video.addFileTag controllerBinding="Video.playListController" bubbles=false}}
+            {{view Video.AddFileTag controllerBinding="Video.playListController" bubbles=false}}
             {{#view Video.DropTarget class="dropFiles" bubbles=false}} Drop files here {{/view}}
             {{view Video.SearchTextField placeholder="titleName" valueBinding="Video.playListController.titleName"}}
                 <button {{action "loadNames" target="Video.playListController"}}>Go!</button>
-            {{#view Video.playListSecView}}
-                {{#view Video.outputTag}}
+            {{#view Video.PlayListSecView}}
+                {{#view Video.OutputTag}}
                     {{#each item in Video.playListController.content}}
-                        <div {{bindAttr id = "item.divNum"}}>
+                        {{#view Video.DragDiv}}
                             <span class="close" {{action removeVideo item target="Video.playListController" bubbles=false}}> x </span>
                             <video class="displayVideos" controls="controls" >
                                <source {{bindAttr type="item.fileExt"}} {{bindAttr src = "item.src"}}>I,m sorry browser doesnt support this</source>
                             </video><br>
-                        </div>
+                            <input type ="hidden" {{bindAttr value=item.src}} class="titles">
+                        {{/view}}
                         <div class="titleDesc" >{{item.titleName}}</div>
                         <br>
                     {{/each}}
-                    <input type ="hidden" {{bindAttr value=item}} class="titles">
                 {{/view}}
-
             {{/view}}
         </div>
     </script>
 
-  <footer class = "footerDesc">
-    <p>developed by manu</p>
-  </footer>
-
-  </script>
-
-  <script src="lib/jquery.js"></script>
-  <script src="lib/handlebars.js"></script>
-  <script src="lib/ember.js"></script>
-  <script src="lib/ember-data.js"></script>
-  <script src="js/libs/local_storage_adapter.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/models/video.js"></script>
-  <script src="js/router.js"></script>
-  <script src="js/controllers/video_controller.js"></script>
-  <!--<script src="js/controllers/videosPlaylist_controller.js"></script> -->
-  <script src="js/views/video_view.js"></script>
+    <footer class = "footerDesc">
+        <p>developed by manu</p>
+    </footer>
+    <script src="lib/jquery.js"></script>
+    <script src="lib/handlebars.js"></script>
+    <script src="lib/ember.js"></script>
+    <script src="lib/ember-data.js"></script>
+    <script src="js/libs/local_storage_adapter.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/models/video.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/controllers/video_controller.js"></script>
+    <script src="js/views/video_view.js"></script>
 </body>
 </html>
