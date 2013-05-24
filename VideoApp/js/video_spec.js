@@ -2,16 +2,10 @@ describe ("Video Play Tests", function(){
     var view,controller;
     beforeEach(function () {
         Ember.run(function () {
-            controller = App.VideosController.create({
-                // We need a container to test views with linkTo.
-                container: App.__container__,
-                content: model
-            });
-            view = App.VideoView.create({
-                    controller: controller,
-                    context: controller
-                });
-            view.append(); // Hook up to our document.
+            var model = Video.VideoEle;
+            controller = Video.playListController;
+            view = Video.VideoView.create();
+            view.append(); // Hook up to our document.;
         });
     });
     afterEach(function () {
@@ -19,11 +13,10 @@ describe ("Video Play Tests", function(){
             view.remove(); // Unhook from our document.
         });
     });
-    it ("Create Video Tag Page", function(){
-        view.$('h2').should.have.text('Video');
-        //div that has video tag embeded in it
-        expect(view.$('.showVideos')).toBeTruthy();
-        view.$('video').should.match('/video/');
+    it ("Video player test case", function(){
+        expect(view.$('source')).toBeTruthy();
+        expect(view.$('source').context.src).toEqual('http://127.0.0.1:8020/VideoApp/pass-countdown.ogg');
+        expect(view.$('source').context.type).toEqual('video/ogg');
     });
 
 });
@@ -32,16 +25,8 @@ describe ("Video PlayList", function(){
     var view,playListController,model;
     beforeEach(function () {
         Ember.run(function () {
-            model = App.Videos.find(1);
-            playListController = App.VideosPlayListController.create({
-                // We need a container to test views with linkTo.
-                container: App.__container__,
-                content: model
-            });
-            view = App.VideoPlayListView.create({
-                    controller: playListController,
-                    context: controller
-                });
+            playListController = Video.playListController;
+            view = Video.PlayListSecView.create();
             view.append(); // Hook up to our document.
         });
     });
@@ -50,24 +35,17 @@ describe ("Video PlayList", function(){
             view.remove(); // Unhook from our document.
         });
     });
-    it ("PlayList", function(){
-        view.$('.headingPlayList').should.have.text('Video Playlist');
-        //div that has video tags
-        expect(view.$('.playVideo')).toBeTruthy();
-        view.$('video').should.match('/video/');
-
+    it ("PlayList section tag", function(){
+        expect(view.tagName).toEqual('section');
     });
 
     it ("Add Videos", function(){
-        playListController.addVideos();
+        //playListController.addVideo();
 
     });
     it ("Remove Videos", function(){
-        playListController.removeVideos();
+        playListController.removeVideo();
 
     });
-    it ("Shuffle Videos", function(){
-        playListController.reoderVideos();
 
-    });
 });
