@@ -1,6 +1,6 @@
 Video.Router.map(function() {
     "use strict";
-    this.route('playList');
+    this.route('playList',{path:"/playList"});
 });
 
 Video.IndexRoute = Ember.Route.extend({

@@ -35,7 +35,7 @@ Video.DropVideo = Ember.View.extend(DragNDrop.DroppableVideo);
 
 Video.SearchTextField = Em.TextField.extend({
     insertNewline: function(){
-       Video.playListController.loadNames();
+       this.get('controller').loadNames();
     }
 
 });

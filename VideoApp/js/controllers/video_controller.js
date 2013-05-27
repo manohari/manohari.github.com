@@ -18,11 +18,7 @@ DragNDrop.DroppableVideo = Ember.Mixin.create({
     dragOver: DragNDrop.cancel,
     drop: function(event) {
         event.preventDefault();
-
-      //  console.log($('.titles').val())
         $('.videoFile')[0].src = $('.titles').val();
-        console.log($('.videoFile')[0].src)
-        //Video.playListController.addVideo(event,1);
         return false;
     }
 });
@@ -34,7 +30,7 @@ DragNDrop.Dragable = Ember.Mixin.create({
         dataTransfer.setData('Text', this.get('elementId'));
     }
 });
-Video.playListController =  Ember.ArrayController.create({
+Video.PlayListController =  Ember.ArrayController.extend({
     content : [],
     vele : [],
     addVideo : function (ele,opt) {
@@ -45,6 +41,7 @@ Video.playListController =  Ember.ArrayController.create({
         else {
             files = ele.dataTransfer.files;
         }
+        console.log(this.get('model'));
         for(loop = 0; loop < files.length; loop += 1) {
             fileData = files[loop];
             if(fileData.type.match('video/webm') || fileData.type.match('video/mp4') || fileData.type.match('video/ogg')) {
@@ -54,10 +51,10 @@ Video.playListController =  Ember.ArrayController.create({
                         vele = Video.VideoEle.createRecord({
                                         titleName: f.name.split(".")[0],
                                         src: e.target.result,
-                                        fileExt: f.type,
-                                        divNum: num+1
+                                        fileExt: f.type
                                    });
-                         self.pushObject(vele);
+                                 //  vele.save();
+                        // self.pushObject(vele);
 
                     };
                 })(files[loop],loop);
@@ -65,10 +62,13 @@ Video.playListController =  Ember.ArrayController.create({
             }
         }
 
+       // console.log(this);
+
     },
     removeVideo : function (rec) {
         var deleVideo = this.get('model');
-        this.removeObject(rec);
+        //this.removeObject(rec);
+        deleVideo.deleteRecord();
 
 
     },

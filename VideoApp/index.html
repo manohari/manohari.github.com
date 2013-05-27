@@ -23,15 +23,15 @@
         <div class = 'playlsitDiv'>
         <h1>Video PlayList</h1>
         <h2>Add Video Files To PlayList</h2>
-            {{view Video.AddFileTag controllerBinding="Video.playListController" bubbles=false}}
+            {{view Video.AddFileTag bubbles=false}}
             {{#view Video.DropTarget class="dropFiles" bubbles=false}} Drop files here {{/view}}
-            {{view Video.SearchTextField placeholder="titleName" valueBinding="Video.playListController.titleName"}}
-                <button {{action "loadNames" target="Video.playListController"}}>Go!</button>
+            {{view Video.SearchTextField placeholder="titleName" valueBinding="controller.titleName"}}
+                <button {{action "loadNames"}}>Go!</button>
             {{#view Video.PlayListSecView}}
                 {{#view Video.OutputTag}}
-                    {{#each item in Video.playListController.content}}
+                    {{#each item in controller.content}}
                         {{#view Video.DragDiv}}
-                            <span class="close" {{action removeVideo item target="Video.playListController" bubbles=false}}> x </span>
+                            <span class="close" {{action removeVideo item bubbles=false}}> x </span>
                             <video class="displayVideos" controls="controls" >
                                <source {{bindAttr type="item.fileExt"}} {{bindAttr src = "item.src"}}>I,m sorry browser doesnt support this</source>
                             </video><br>
