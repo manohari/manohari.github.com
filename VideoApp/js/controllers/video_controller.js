@@ -60,9 +60,11 @@ Video.PlayListController =  Ember.ArrayController.extend({
        // console.log(this);
 
     },
-    removeVideo : function (rec) {
-        this.removeObject(rec);
-    },
+   /*removeVideo : function () {
+        var videoEle = this.get('model');
+        console.log(this.get(Video.VideoEle));
+        //this.removeObject(rec);
+    },*/
     loadNames : function() {
         var item, titleName,vele;
         titleName = this.get('titleName');
@@ -71,4 +73,11 @@ Video.PlayListController =  Ember.ArrayController.extend({
     }
 
 });
+Video.PlayController =  Ember.ObjectController.extend({
+    removeVideo : function () {
+        var videle = this.get('model');
+        videle.deleteRecord();
+    }
+});
+
 
