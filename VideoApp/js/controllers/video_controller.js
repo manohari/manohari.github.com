@@ -7,7 +7,7 @@ DragNDrop.Droppable = Ember.Mixin.create({
     dragOver: DragNDrop.cancel,
     drop: function(event) {
         event.preventDefault();
-        Video.playListController.addVideo(event,1);
+        this.get('controller').addVideo(event,1);
         return false;
     }
 });
@@ -32,16 +32,14 @@ DragNDrop.Dragable = Ember.Mixin.create({
 });
 Video.PlayListController =  Ember.ArrayController.extend({
     content : [],
-    vele : [],
     addVideo : function (ele,opt) {
-        var files, loop, reader, self = this, fileData;
+        var files, loop, reader, self = this, fileData, vele;
         if(opt === 0) {
             files = ele.target.files;
         }
         else {
             files = ele.dataTransfer.files;
         }
-        console.log(this.get('model'));
         for(loop = 0; loop < files.length; loop += 1) {
             fileData = files[loop];
             if(fileData.type.match('video/webm') || fileData.type.match('video/mp4') || fileData.type.match('video/ogg')) {
@@ -53,9 +51,6 @@ Video.PlayListController =  Ember.ArrayController.extend({
                                         src: e.target.result,
                                         fileExt: f.type
                                    });
-                                 //  vele.save();
-                        // self.pushObject(vele);
-
                     };
                 })(files[loop],loop);
                 reader.readAsDataURL(files[loop]);
@@ -66,11 +61,7 @@ Video.PlayListController =  Ember.ArrayController.extend({
 
     },
     removeVideo : function (rec) {
-        var deleVideo = this.get('model');
-        //this.removeObject(rec);
-        deleVideo.deleteRecord();
-
-
+        this.removeObject(rec);
     },
     loadNames : function() {
         var item, titleName,vele;
