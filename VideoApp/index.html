@@ -25,7 +25,7 @@
         <h2>Add Video Files To PlayList</h2>
             {{view Video.AddFileTag bubbles=false}}
             {{#view Video.DropTarget class="dropFiles" bubbles=false}} Drop files here {{/view}}
-            {{view Video.SearchTextField placeholder="titleName" valueBinding="controller.titleName"}}
+            {{view Video.SearchTextField placeholder="titleName" valueBinding="titleName"}}
                 <button {{action "loadNames"}}>Go!</button>
             {{#view Video.PlayListSecView}}
                 {{#view Video.OutputTag}}

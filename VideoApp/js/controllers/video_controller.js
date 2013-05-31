@@ -56,22 +56,14 @@ Video.PlayListController =  Ember.ArrayController.extend({
                 reader.readAsDataURL(files[loop]);
             }
         }
-
-       // console.log(this);
-
     },
-   /*removeVideo : function () {
-        var videoEle = this.get('model');
-        console.log(this.get(Video.VideoEle));
-        //this.removeObject(rec);
-    },*/
     loadNames : function() {
-        var item, titleName,vele;
-        titleName = this.get('titleName');
-        vele = this.filterProperty('titleName',titleName);
-        this.set('content',vele);
-    }
-
+        this.set('content',this.get('searchedContent'));
+    },
+    searchedContent : function() {
+        var titleName = this.get('titleName');
+        return this.filterProperty('titleName',titleName);
+    }.property('@each.content').cacheable()
 });
 Video.PlayController =  Ember.ObjectController.extend({
     removeVideo : function () {
